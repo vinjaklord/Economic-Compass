@@ -1,5 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
+import cors from 'cors';
 import * as dotenv from 'dotenv';
 import { schedule } from './controllers/middleware.js';
 dotenv.config();
@@ -13,6 +14,8 @@ const CONNECTION = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluste
 const app = express();
 
 schedule();
+
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 // Middleware

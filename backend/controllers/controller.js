@@ -10,9 +10,8 @@ import { Economics } from '../models/news.js';
 
 const allCalendar = async (req, res) => {
   try {
-    // const data = fs.readFileSync("./data.json", "utf8");
     const data = await Economics.find(
-      {},
+      { impact: { $ne: 'Low' } }, // Exclude 'low' impact
       'title country date impact forecast previous -_id'
     ).lean();
 

@@ -1,60 +1,102 @@
 .table-container {
-  width: 60%; /* Adjusted to make the table smaller */
-  margin: 0 auto;
-  padding: 20px;
+  width: 40%;
+  margin: 20px;
+  padding: 10px;
   position: relative;
-  top: 80px; /* Add space below the fixed header */
+  top: 80px;
+  left: 0;
+  font-family: "Inter", sans-serif;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  font-size: 12px;
+  background-color: #0d1117;
+  color: #c9d1d9;
 }
 
 .data-table th,
 .data-table td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
+  padding: 8px;
+  border: 1px solid #30363d;
+  text-align: center; /* Center align text */
+  vertical-align: middle;
 }
 
 .data-table th {
-  background-color: #55608f;
+  background-color: #161b22;
+  color: #c9d1d9;
 }
 
-table {
-  width: 100%; /* Ensure it takes up the full width of the container */
-  border-collapse: collapse;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-th,
-td {
-  padding: 15px;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  font-family: "Inter", sans-serif; /* Google Font "Inter" */
-  font-size: 14px; /* Adjusted font size */
-}
-th {
-  text-align: left;
-}
-thead th {
-  background-color: #55608f;
-}
 tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(88, 166, 255, 0.2);
 }
-tbody td {
-  position: relative;
+
+.data-table td:hover {
+  color: #58a6ff;
+  cursor: pointer;
 }
-tbody td:hover:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  background-color: rgba(255, 255, 255, 0.2);
-  z-index: -1;
+.impact-high,
+.impact-medium,
+.impact-low,
+.impact-holiday {
+  display: inline-block; /* Ensures the width applies correctly */
+  width: 80px; /* Fixed width for consistency */
+  text-align: center; /* Centers the text */
+  padding: 1px 0; /* Vertical padding only */
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.impact-high {
+  background-color: #7c1212;
+  color: white;
+}
+
+.impact-medium {
+  background-color: #aa6f00;
+  color: white;
+}
+
+.impact-low {
+  background-color: #8d8b10;
+  color: white;
+}
+
+.impact-holiday {
+  background-color: #9b9b9b;
+  color: white;
+}
+
+/* Center all table contents */
+.data-table th,
+.data-table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Style for merged date cells */
+.grouped-date {
+  background-color: #1f2937;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Style for merged country cells */
+.grouped-country {
+  font-weight: bold;
+  text-align: center;
+  background-color: #24292e;
+  color: #c9d1d9;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Highlight the entire date column when hovering over a date */
+.highlight-date {
+  background-color: rgba(88, 166, 255, 0.3) !important;
 }

@@ -11,9 +11,11 @@ import { Economics } from '../models/news.js';
 const allCalendar = async (req, res) => {
   try {
     const data = await Economics.find(
-      { impact: { $ne: 'Low' } }, // Exclude 'low' impact
+      { impact: { $ne: 'low' } }, // Exclude 'low' impact
       'title country date impact forecast previous -_id'
-    ).lean();
+    )
+      .sort({ date: 1 })
+      .lean();
 
     res.json(data);
   } catch (error) {

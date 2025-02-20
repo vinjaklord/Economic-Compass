@@ -1,7 +1,13 @@
 import { Router } from 'express';
-import { allCalendar, whatDay } from '../controllers/controller.js';
 import { body } from 'express-validator';
-import { login, signup } from '../controllers/controller.js';
+import {
+  allCalendar,
+  whatDay,
+  login,
+  signup,
+  news,
+} from '../controllers/controller.js';
+import { positionSize } from '../controllers/calculator.js';
 
 const router = new Router();
 
@@ -10,8 +16,12 @@ router.get('/calendar', allCalendar);
 
 router.get('/calendar/day/:day', whatDay);
 
+router.get('/news', news);
+
+router.post('/calculator', positionSize);
+
 router.post(
-  '/members/signup',
+  '/signup',
 
   body('email').escape().isEmail().toLowerCase().normalizeEmail(),
   body('password').escape().isLength({ min: 6, max: 50 }),
@@ -22,7 +32,7 @@ router.post(
 );
 
 router.post(
-  '/members/login',
+  '/login',
   body('username').escape().optional(),
   body('password').escape().optional(),
   login

@@ -2,7 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
-import { schedule } from './controllers/middleware.js';
+import { schedule, scheduleNews } from './controllers/middleware.js';
 dotenv.config();
 import router from './router/router.js';
 import mongoose from 'mongoose';
@@ -14,10 +14,13 @@ const CONNECTION = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluste
 const app = express();
 
 schedule();
+scheduleNews();
 
 app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // Middleware
 app.use(
   helmet.contentSecurityPolicy({
@@ -26,8 +29,6 @@ app.use(
     },
   })
 );
-
-app.use(express.json());
 
 app.use('/', router);
 

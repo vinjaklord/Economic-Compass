@@ -3,15 +3,18 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { validationResult, matchedData } from 'express-validator';
 import { getToken, checkHash } from './middleware.js';
-
 import HttpError from '../models/http-error.js';
 import { Password, Member } from '../models/members.js';
-import { Economics } from '../models/news.js';
+import { Economics, News } from '../models/news.js';
+import dotenv from 'dotenv';
+dotenv.config();
+
+///////////////////////////////////////////////////////////////////////////////////////
 
 const allCalendar = async (req, res) => {
   try {
     const data = await Economics.find(
-      { impact: { $ne: 'low' } }, // Exclude 'low' impact
+      { impact: { $ne: 'Low' } }, // Exclude 'low' impact
       'title country date impact forecast previous -_id'
     )
       .sort({ date: 1 })
@@ -165,4 +168,15 @@ const login = async (req, res, next) => {
   }
 };
 
-export { allCalendar, whatDay, signup, login };
+////////////////////////////////////////////////////////////////////////////
+
+const news = async (req, res, next) => {
+  try {
+    const data = await News.find();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching API data from data.json  |  ', error.message);
+  }
+};
+
+export { allCalendar, whatDay, signup, login, news };

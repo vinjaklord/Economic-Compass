@@ -5,10 +5,10 @@ import bcrypt from 'bcrypt';
 dotenv.config();
 
 import cron from 'node-cron';
-import { Economics } from '../models/news.js';
+import { Economics, News } from '../models/news.js';
 
 function schedule() {
-  cron.schedule('*/30 * * * *', async () => {
+  cron.schedule('0 * * * *', async () => {
     try {
       const response = await axios.get(
         'https://nfs.faireconomy.media/ff_calendar_thisweek.json'
@@ -18,7 +18,25 @@ function schedule() {
       await Economics.deleteMany({});
       await Economics.create(data);
 
-      console.log('Database updated successfully at', new Date().toISOString());
+      console.log('Calendar updated successfully at', new Date().toISOString());
+    } catch (error) {
+      console.error('Error fetching API data | ', error.message);
+    }
+  });
+}
+
+function scheduleNews() {
+  cron.schedule('0 * * * *', async () => {
+    try {
+      const response = await axios.get(
+        `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=FOREX:USD&limit=50&apikey=${process.env.NEWS_KEY}`
+      );
+      const data = response.data;
+
+      await News.deleteMany({});
+      await News.create(data);
+
+      console.log('News updated successfully at', new Date().toISOString());
     } catch (error) {
       console.error('Error fetching API data | ', error.message);
     }
@@ -30,8 +48,9 @@ const getToken = (id) => {
 
   return token;
 };
+
 const checkHash = (plainText, hashText) => {
   return bcrypt.compareSync(plainText, hashText);
 };
 
-export { schedule, getToken, checkHash };
+export { schedule, getToken, checkHash, scheduleNews };

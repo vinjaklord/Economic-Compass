@@ -74,68 +74,102 @@ const whatDay = async (req, res) => {
   }
 };
 
+const getOneMember = async (req, res, next) => {
+  try {
+    const member = await Member.findById(req.params.id);
+
+    if (!member) {
+      throw new HttpError('Cant Find Member', 404);
+    }
+
+    res.json(member);
+  } catch (error) {
+    return next(new HttpError(error.message, error.errorCode || 422));
+  }
+};
+
+const news = async (req, res, next) => {
+  try {
+    const data = await News.find();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching API data from data.json  |  ', error.message);
+  }
+};
+
 //////////////////////////////////////////////////////////////////////////////////
 
 const signup = async (req, res, next) => {
-  // Validate data
+  // Validate the request body
   const result = validationResult(req);
 
+  // If there are validation errors, return them
   if (!result.isEmpty()) {
-    return res.status(422).json({ errors: result.array() });
+    return res.status(422).json({
+      errors: result.array(), // Send detailed errors
+    });
   }
 
-  if (result.errors.length > 0) {
-    throw new HttpError(JSON.stringify(result.errors), 422);
-  }
+  // Extract matched data
+  const data = req.body;
 
-  const data = matchedData(req);
-
+  // Hash the password
   const password = bcrypt.hashSync(data.password, 10);
 
   let newMember;
 
   try {
-    // create new member
+    // Create new member instance
     const createdMember = new Member({
-      //spread operator
       ...data,
     });
 
     const session = await mongoose.startSession();
     session.startTransaction();
 
-    // Save member and Save password in one transaction
-    // Save member
-    newMember = await createdMember.save({ session });
-    const createdPassword = new Password({
-      password,
-      // Read Member-ID
-      member: newMember._id,
-    });
-
+    // Check for existing username or email
     const existingUser = await Member.findOne({
       $or: [{ username: data.username }, { email: data.email }],
     });
 
     if (existingUser) {
-      throw new HttpError('Username or email already exists.', 422);
+      return res.status(422).json({
+        message: 'Username or email already exists.',
+      });
     }
 
-    // Save password
+    // Save the member and password in a transaction
+    newMember = await createdMember.save({ session });
+
+    const createdPassword = new Password({
+      password,
+      member: newMember._id,
+    });
+
     await createdPassword.save({ session });
 
-    // Confirm transaction
+    // Commit transaction
     await session.commitTransaction();
 
-    // Send the data to the client (w/o password)
-
-    res.json(newMember);
+    // Respond with the new member (without the password)
+    res.json({
+      id: newMember.id,
+      username: newMember.username,
+      email: newMember.email,
+      firstName: newMember.firstName,
+      lastName: newMember.lastName,
+    });
   } catch (error) {
+    // Handle errors
+    console.error(error);
     if (error.code === 11000) {
-      // MongoDB duplicate key error code
-      throw new HttpError('Username or email already exists.', 422);
+      return res.status(422).json({
+        message: 'Username or email already exists.',
+      });
     }
-    throw new HttpError('Something went wrong!', 500);
+    return res.status(500).json({
+      message: 'Something went wrong!',
+    });
   }
 };
 
@@ -148,7 +182,12 @@ const login = async (req, res, next) => {
     });
 
     if (!foundMember) {
-      throw new HttpError('Cant Find Member', 404);
+      console.log(
+        'Member not found with username/email: ',
+        data.username,
+        data.email
+      );
+      throw new HttpError('Cannot Find Member', 404);
     }
 
     const foundPassword = await Password.findOne({
@@ -168,15 +207,48 @@ const login = async (req, res, next) => {
   }
 };
 
-////////////////////////////////////////////////////////////////////////////
-
-const news = async (req, res, next) => {
+const updateMember = async (req, res, next) => {
   try {
-    const data = await News.find();
-    res.json(data);
+    // Sicherheitsprüfung: Member kann sich nur selbst wollen
+    const { id } = req.params;
+
+    // Feldprüfungen Ergebnis checken
+    const result = validationResult(req);
+
+    if (result.errors.length > 0) {
+      throw new HttpError(JSON.stringify(result.errors), 422);
+    }
+
+    const data = matchedData(req);
+
+    // gibt es den Member überhaupt? Wenn nein, Abbruch
+    const foundMember = await Member.findById(id);
+
+    if (!foundMember) {
+      throw new HttpError('Member cannot be found', 404);
+    }
+
+    // Es werden nur die Felder geändert, die über die Schnittstelle kommen
+    Object.assign(foundMember, data);
+
+    // Member speichern
+    const updatedMember = await foundMember.save();
+
+    // geänderten Daten rausschicken
+    res.json(updatedMember);
   } catch (error) {
-    console.error('Error fetching API data from data.json  |  ', error.message);
+    return next(new HttpError(error, error.errorCode || 500));
   }
 };
 
-export { allCalendar, whatDay, signup, login, news };
+////////////////////////////////////////////////////////////////////////////
+
+export {
+  allCalendar,
+  whatDay,
+  signup,
+  login,
+  news,
+  getOneMember,
+  updateMember,
+};

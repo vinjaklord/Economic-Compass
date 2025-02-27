@@ -1,16 +1,15 @@
 .news-container {
-  width: 100%;
-  padding: 10px;
+  width: 115%;
+  padding: 8px; /* Reduced padding for compactness */
   background-color: #0d1117;
   border-radius: 10px;
-
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   box-sizing: border-box;
   margin-top: 230px;
   margin-left: -15%;
   height: auto;
-  position: relative; /* Ensure it's positioned relative */
-  z-index: 10; /* Ensure it's above other content */
+  position: relative;
+  z-index: 10;
 }
 
 .news-table {
@@ -18,12 +17,12 @@
   border-collapse: collapse;
   background-color: #0d1117;
   color: #c9d1d9;
-  font-size: 12px;
+  font-size: 12px; /* Reduced font size for compactness */
 }
 
 .news-table th,
 .news-table td {
-  padding: 6px 10px;
+  padding: 4px 6px; /* Reduced padding for vertical compactness */
   border: 1px solid #30363d;
   text-align: left;
   vertical-align: middle;
@@ -52,7 +51,7 @@
 
   .news-table th,
   .news-table td {
-    font-size: 10px;
-    padding: 4px 8px;
+    font-size: 9px; /* Further reduced font size for smaller screens */
+    padding: 4px 6px;
   }
 }

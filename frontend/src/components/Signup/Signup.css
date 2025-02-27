@@ -1,0 +1,97 @@
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0d1117; /* Dark background */
+  font-family: 'Inter', sans-serif;
+}
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background-color: #161b22; /* Darker background for form */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Styling for signup header */
+.signup-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  font-size: 2rem; /* Adjust font size */
+  font-weight: 700;
+  color: #58a6ff; /* GitHub blue for headings */
+  letter-spacing: 1px;
+}
+
+/* Input Fields Styling */
+.text-field {
+  margin-bottom: 16px;
+  /* Add margin between input fields */
+}
+
+.text-field .MuiOutlinedInput-root {
+  background-color: #21262d; /* Dark background for input fields */
+  border-radius: 4px;
+  border: 1px solid #ffffff; /* White border around input fields */
+  width: 100%; /* Ensure inputs take full width of their container */
+}
+
+.text-field input {
+  color: #ffffff; /* White text color inside the input fields */
+}
+
+/* Label Styling */
+.text-field .MuiInputLabel-root {
+  color: #ffffff56; /* White label color */
+}
+
+/* Focused Input Styling */
+.text-field .MuiOutlinedInput-root.Mui-focused {
+  border: 1px solid #ffffff56; /* White border when focused */
+}
+
+.text-field .MuiOutlinedInput-input {
+  color: #ffffff; /* Ensures the text in the input is white */
+}
+
+/* Button Styling */
+.signup-button {
+  margin-top: 24px;
+  width: 100%;
+  font-weight: bold;
+  background-color: #58a6ff; /* GitHub blue for button */
+  color: #ffffff; /* White text color */
+  border-radius: 4px; /* Rounded corners */
+  padding: 12px;
+}
+
+.signup-button:hover {
+  background-color: #4c8cc4; /* Lighter blue on hover */
+}
+
+/* Register Link Styling */
+.login-link {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.login-link a {
+  color: #58a6ff; /* GitHub blue for link */
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}

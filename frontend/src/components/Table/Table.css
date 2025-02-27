@@ -5,22 +5,22 @@
   position: relative;
   top: 10px;
   left: 0;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 13px; /* Reduced font size for compactness */
   background-color: #0d1117;
   color: #c9d1d9;
 }
 
 .data-table th,
 .data-table td {
-  padding: 8px;
+  padding: 4px 6px; /* Reduced padding for vertical compactness */
   border: 1px solid #30363d;
-  text-align: center; /* Center align text */
+  text-align: center;
   vertical-align: middle;
 }
 
@@ -37,14 +37,15 @@ tbody tr:hover {
   color: #58a6ff;
   cursor: pointer;
 }
+
 .impact-high,
 .impact-medium,
 .impact-low,
 .impact-holiday {
-  display: inline-block; /* Ensures the width applies correctly */
-  width: 80px; /* Fixed width for consistency */
-  text-align: center; /* Centers the text */
-  padding: 1px 0; /* Vertical padding only */
+  display: inline-block;
+  width: 70px;
+  text-align: center;
+  padding: 2px 0; /* Reduced vertical padding */
   border-radius: 4px;
   font-weight: bold;
 }
@@ -69,25 +70,22 @@ tbody tr:hover {
   color: white;
 }
 
-/* Center all table contents */
 .data-table th,
 .data-table td {
   text-align: center;
   vertical-align: middle;
 }
 
-/* Style for merged date cells */
 .grouped-date {
   background-color: #1f2937;
   color: white;
   font-weight: bold;
   text-align: center;
-  font-size: 14px;
-  padding: 10px;
+  font-size: 12px; /* Slightly reduced font size */
+  padding: 6px; /* Reduced padding */
   transition: background-color 0.2s ease-in-out;
 }
 
-/* Style for merged country cells */
 .grouped-country {
   font-weight: bold;
   text-align: center;
@@ -96,7 +94,6 @@ tbody tr:hover {
   transition: background-color 0.2s ease-in-out;
 }
 
-/* Highlight the entire date column when hovering over a date */
 .highlight-date {
   background-color: rgba(88, 166, 255, 0.3) !important;
 }

@@ -29,7 +29,7 @@ function scheduleNews() {
   cron.schedule('0 * * * *', async () => {
     try {
       const response = await axios.get(
-        `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=FOREX:USD&limit=50&apikey=${process.env.NEWS_KEY}`
+        `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=FOREX:USD,FOREX:EUR,FOREX:GBP,FOREX:JPY,FOREX:CHF&limit=500&apikey=${process.env.NEWS_KEY}`
       );
       const data = response.data;
 
@@ -44,7 +44,7 @@ function scheduleNews() {
 }
 
 const getToken = (id) => {
-  const token = jwt.sign({ id }, process.env.JWT_KEY, { expiresIn: '1h' });
+  const token = jwt.sign({ id }, process.env.JWT_KEY);
 
   return token;
 };

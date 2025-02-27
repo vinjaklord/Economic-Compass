@@ -1,29 +1,53 @@
-import { BrowserRouter as Router } from "react-router-dom";
-import Header from "./components/Header/Header";
-import Table from "./components/Table/Table";
-import News from "./components/News_Sentiment/News";
-import { PositionSize } from "./components/Calculators/PositionSize";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Correct imports
+import { useEffect } from 'react';
+import { Box } from '@mui/material';
+import Header from './components/Header/Header'; // Your Header component
+
+import Login from './components/Login/Login'; // Your Login component
+import Signup from './components/Signup/Signup'; // Import Signup component
+import ConfirmDialog from './components/Layouts/ConfirmDialog.jsx';
+import CustomAlert from './components/Layouts/CustomAlert.jsx';
+import MemberChangeProfile from './components/ChangeProfile/MemberChangeProfile.jsx';
+import useStore from './hooks/useStore'; // Your custom store hook
+import Dashboard from './components/Layouts/Dashboard.jsx';
 
 function App() {
-  return (
-    <div className="page-container" style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      <Router>
-        <Header />
-        <div className="dashboard-container" style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: "30px" }}>
-          <div className="table-container" style={{ flex: "0 0 65%" }}>
-            <Table />
-          </div>
-          <div className="news-container" style={{ flex: "0 0 45%" }}>
-            <News />
-          </div>
-        </div>
+  const { loggedInMember, memberCheck } = useStore((state) => state);
 
-        {/* Wrapper for PositionSize component */}
-        <div className="position-size-wrapper">
-          <PositionSize />
-        </div>
-      </Router>
-    </div>
+  // Check if the user is logged in on every page load
+  useEffect(() => {
+    memberCheck();
+  }, [memberCheck]);
+
+  // Define routes for logged in users
+  const routerLoggedIn = (
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="edit-profile" element={<MemberChangeProfile />} />
+    </Routes>
+  );
+
+  // Define routes for users who are not logged in
+  const routerNotLoggedIn = (
+    <Routes>
+      <Route path="/" element={<Dashboard />} />
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+    </Routes>
+  );
+
+  // Select the correct set of routes based on loggedInMember status
+  const routes = loggedInMember ? routerLoggedIn : routerNotLoggedIn;
+
+  return (
+    <Router>
+      <ConfirmDialog />
+      <CustomAlert />
+      <Header />
+      <Box sx={{ padding: 3 }}>
+        {routes} {/* Render the appropriate routes */}
+      </Box>
+    </Router>
   );
 }
 

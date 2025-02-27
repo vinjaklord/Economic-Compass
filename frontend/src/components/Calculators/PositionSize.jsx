@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { fetchAPI } from "../../utils"; // Assuming this is the location of fetchAPI
-import "./PositionSize.css";
+import { useState } from 'react';
+import { fetchAPI } from '../../utils'; // Assuming this is the location of fetchAPI
+import './PositionSize.css';
 
 function PositionSize() {
   const [formData, setFormData] = useState({
-    baseCurrency: "eur", // Default base currency
-    comparedTo: "usd", // Default compared currency
-    accountSize: "",
-    riskRatio: "",
-    stopLoss: "",
-    accountCurrency: "eur",
+    baseCurrency: 'eur', // Default base currency
+    comparedTo: 'usd', // Default compared currency
+    accountSize: '',
+    riskRatio: '',
+    stopLoss: '',
+    accountCurrency: 'eur',
   });
 
-  const [result, setResult] = useState("0.00");
+  const [result, setResult] = useState('0.00');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,20 +34,16 @@ function PositionSize() {
       accountCurrency: formData.accountCurrency,
     };
 
-    // Log the data being sent to ensure it has all required fields
-    console.log("Sending form data to backend:", form);
-
     try {
       const response = await fetchAPI({
-        method: "post",
-        url: "/calculator",
+        method: 'post',
+        url: '/calculator',
         data: form,
       });
 
-      console.log("Calculated Lot Size:", response.data.lotSize);
       setResult(response.data.lotSize);
     } catch (err) {
-      console.error("Error during calculation:", err);
+      console.error('Error during calculation:', err);
     }
   };
 
@@ -57,7 +53,11 @@ function PositionSize() {
         <h3>Position Size Calculator</h3>
         <div>
           <label htmlFor="baseCurrency">Base Currency:</label>
-          <select id="baseCurrency" name="baseCurrency" value={formData.baseCurrency} onChange={handleChange}>
+          <select
+            name="baseCurrency"
+            value={formData.baseCurrency}
+            onChange={handleChange}
+          >
             <option value="usd">USD </option>
             <option value="eur">EUR </option>
             <option value="gbp">GBP </option>
@@ -83,7 +83,11 @@ function PositionSize() {
 
         <div>
           <label htmlFor="comparedTo">Compared To:</label>
-          <select id="comparedTo" name="comparedTo" value={formData.comparedTo} onChange={handleChange}>
+          <select
+            name="comparedTo"
+            value={formData.comparedTo}
+            onChange={handleChange}
+          >
             <option value="eur">EUR </option>
             <option value="usd">USD </option>
             <option value="gbp">GBP </option>
@@ -109,22 +113,44 @@ function PositionSize() {
 
         <div>
           <label htmlFor="accountSize">Account Size:</label>
-          <input type="text" name="accountSize" placeholder="Account Size" value={formData.accountSize} onChange={handleChange} />
+          <input
+            type="text"
+            name="accountSize"
+            placeholder="Account Size"
+            value={formData.accountSize}
+            onChange={handleChange}
+          />
         </div>
 
         <div>
           <label htmlFor="riskRatio">Risk Ratio (%):</label>
-          <input type="text" name="riskRatio" placeholder="Risk Ratio (%)" value={formData.riskRatio} onChange={handleChange} />
+          <input
+            type="text"
+            name="riskRatio"
+            placeholder="Risk Ratio (%)"
+            value={formData.riskRatio}
+            onChange={handleChange}
+          />
         </div>
 
         <div>
           <label htmlFor="stopLoss">Stop Loss (pips):</label>
-          <input type="text" name="stopLoss" placeholder="Stop Loss (pips)" value={formData.stopLoss} onChange={handleChange} />
+          <input
+            type="text"
+            name="stopLoss"
+            placeholder="Stop Loss (pips)"
+            value={formData.stopLoss}
+            onChange={handleChange}
+          />
         </div>
 
         <div>
           <label htmlFor="accountCurrency">Account Currency:</label>
-          <select id="accountCurrency" name="accountCurrency" value={formData.accountCurrency} onChange={handleChange}>
+          <select
+            name="accountCurrency"
+            value={formData.accountCurrency}
+            onChange={handleChange}
+          >
             <option value="usd">USD </option>
             <option value="eur">EUR </option>
             <option value="gbp">GBP </option>

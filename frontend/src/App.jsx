@@ -10,6 +10,8 @@ import CustomAlert from './components/Layouts/CustomAlert.jsx';
 import MemberChangeProfile from './components/ChangeProfile/MemberChangeProfile.jsx';
 import useStore from './hooks/useStore'; // Your custom store hook
 import Dashboard from './components/Layouts/Dashboard.jsx';
+import NewsPage from './components/News_Sentiment/NewsPage.jsx';
+import TablePage from './components/Table/TablePage.jsx';
 
 function App() {
   const { loggedInMember, memberCheck } = useStore((state) => state);
@@ -24,6 +26,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="edit-profile" element={<MemberChangeProfile />} />
+      <Route path="news" element={<NewsPage />} />
+      <Route path="calendar" element={<TablePage />} />
     </Routes>
   );
 
@@ -33,6 +37,8 @@ function App() {
       <Route path="/" element={<Dashboard />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
+      <Route path="news" element={<NewsPage />} />
+      <Route path="calendar" element={<TablePage />} />
     </Routes>
   );
 
@@ -44,9 +50,7 @@ function App() {
       <ConfirmDialog />
       <CustomAlert />
       <Header />
-      <Box sx={{ padding: 3 }}>
-        {routes} {/* Render the appropriate routes */}
-      </Box>
+      <Box sx={{ padding: 3 }}>{routes}</Box>
     </Router>
   );
 }

@@ -1,0 +1,115 @@
+/* General body and container styling */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0d1117;
+  margin: 0;
+  padding: 0;
+  color: #c9d1d9;
+}
+
+/* Main container for the news section */
+.newsPage-container {
+  max-width: 900px;
+  margin: 80px auto;
+  padding: 20px;
+  background-color: #0d1117;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+/* Header with the Top News label */
+.newsPage-container::before {
+  content: 'Top News';
+  font-size: 24px;
+  font-weight: 600;
+  color: #58a6ff;
+  display: block;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #58a6ff;
+  padding-bottom: 10px;
+}
+
+/* Styling for the loading and error message */
+p {
+  font-size: 16px;
+  text-align: center;
+  color: #c9d1d9;
+}
+
+/* Table for news items */
+.news-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 12px;
+  background-color: #0d1117;
+  color: #c9d1d9;
+}
+
+/* Table headers styling */
+.news-table th {
+  text-align: left;
+  padding: 10px;
+  background-color: #30363d;
+  border-bottom: 2px solid #30363d;
+}
+
+/* Table data styling */
+.news-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #30363d;
+  word-wrap: break-word;
+  vertical-align: middle;
+}
+
+/* Styling for the news titles */
+.news-table td a {
+  color: #58a6ff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.news-table td a:hover {
+  color: #fff;
+}
+
+/* Add a hover effect on the table rows */
+.news-table tr:hover {
+  background-color: rgba(88, 166, 255, 0.2);
+  cursor: pointer;
+}
+
+/* Add spacing between rows */
+.news-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+/* Styling for when the page is loading */
+.news-container p {
+  font-size: 18px;
+  color: #777;
+  font-style: italic;
+}
+
+/* Add spacing to the bottom */
+.news-container p + table {
+  margin-top: 30px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .news-container {
+    width: 100%;
+    top: 0;
+    right: 0;
+  }
+
+  .news-table th,
+  .news-table td {
+    font-size: 9px; /* Further reduced font size for smaller screens */
+    padding: 4px 6px;
+  }
+}

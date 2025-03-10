@@ -1,17 +1,11 @@
 import { useState, useEffect } from 'react';
 import { fetchAPI } from '../../utils/index.js';
-import moment from 'moment-timezone'; // Import moment-timezone for time zone conversions
-import './News.css';
+import './NewsPage.css';
 
-const News = () => {
+const NewsPage = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Get the user's time zone from sessionStorage (default to 'UTC' if not found)
-  const userTimeZone = sessionStorage.getItem('lh_member')
-    ? JSON.parse(sessionStorage.getItem('lh_member')).timeZone || 'UTC'
-    : 'UTC';
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -34,16 +28,8 @@ const News = () => {
     fetchNews();
   }, []);
 
-  // Convert news times based on user's selected time zone
-  const convertToUserTimeZone = (time) => {
-    return moment.utc(time).tz(userTimeZone).format('YYYY/MM/DD HH:mm');
-  };
-
-  // Limit the number of news entries to 12
-  const limitedNews = news.slice(0, 12);
-
   return (
-    <div className="news-container">
+    <div className="newsPage-container">
       {loading && <p>Loading news...</p>}
       {error && <p>{error}</p>}
       <table className="news-table">
@@ -55,7 +41,7 @@ const News = () => {
           </tr>
         </thead>
         <tbody>
-          {limitedNews.map((newsItem, index) => (
+          {news.map((newsItem, index) => (
             <tr key={index}>
               <td>
                 <a
@@ -67,7 +53,14 @@ const News = () => {
                 </a>
               </td>
               <td>{newsItem.summary}</td>
-              <td>{convertToUserTimeZone(newsItem.time_published)}</td>
+              <td>
+                {new Date(
+                  newsItem.time_published.replace(
+                    /(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/,
+                    '$1-$2-$3T$4:$5:$6'
+                  )
+                ).toLocaleString()}
+              </td>{' '}
             </tr>
           ))}
         </tbody>
@@ -76,4 +69,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default NewsPage;

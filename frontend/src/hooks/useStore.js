@@ -182,7 +182,7 @@ const useStore = create((set, get) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        timeout: 5000, // Increase timeout to 10 seconds
+        timeout: 5000,
       });
 
       get().raiseAlert({
@@ -192,7 +192,7 @@ const useStore = create((set, get) => ({
 
       return true;
     } catch (error) {
-      console.error('Error during signup:', error); // Log the error for better debugging
+      console.error('Error during signup:', error);
 
       if (error.code === 'ECONNABORTED') {
         get().raiseAlert({

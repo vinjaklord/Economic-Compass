@@ -1,45 +1,41 @@
-.table-container {
-  width: 90%; /* Stretches to fit grid cell */
-  max-width: 1200px; /* Wider than before, but capped for balance */
-  margin: 10px 0; /* Simplified margin, removed left/right */
-  padding: 20px; /* Increased padding to match calculator */
+.tablePage-container {
+  width: 85%;
+  margin: 100px;
+  padding: 10px;
   position: relative;
-  top: 0; /* Removed unnecessary offset */
-  left: 0;
+  top: 10px;
+
   font-family: 'Inter', sans-serif;
-  box-sizing: border-box; /* Ensures padding is included in width */
 }
 
-.data-table {
+.dataPage-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px; /* Kept compact */
+  font-size: 13px; /* Reduced font size for compactness */
   background-color: #0d1117;
   color: #c9d1d9;
 }
 
-.data-table th,
-.data-table td {
-  padding: 4px 6px;
+.dataPage-table th,
+.dataPage-table td {
+  padding: 4px 6px; /* Reduced padding for vertical compactness */
   border: 1px solid #30363d;
   text-align: center;
   vertical-align: middle;
 }
 
-.data-table th {
+.dataPage-table th {
   background-color: #161b22;
   color: #c9d1d9;
 }
 
 tbody tr:hover {
   background-color: rgba(88, 166, 255, 0.2);
-  transition: color 0.3s ease;
 }
 
-.data-table td:hover {
+.dataPage-table td:hover {
   color: #58a6ff;
   cursor: pointer;
-  transition: color 0.3s ease;
 }
 
 .impact-high,
@@ -49,7 +45,7 @@ tbody tr:hover {
   display: inline-block;
   width: 70px;
   text-align: center;
-  padding: 2px 0;
+  padding: 2px 0; /* Reduced vertical padding */
   border-radius: 4px;
   font-weight: bold;
 }
@@ -74,13 +70,19 @@ tbody tr:hover {
   color: white;
 }
 
+.dataPage-table th,
+.dataPage-table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
 .grouped-date {
   background-color: #1f2937;
   color: white;
   font-weight: bold;
   text-align: center;
-  font-size: 12px;
-  padding: 6px;
+  font-size: 12px; /* Slightly reduced font size */
+  padding: 6px; /* Reduced padding */
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -94,13 +96,4 @@ tbody tr:hover {
 
 .highlight-date {
   background-color: rgba(88, 166, 255, 0.3) !important;
-}
-
-/* Responsiveness */
-@media (max-width: 768px) {
-  .table-container {
-    width: 100%;
-    max-width: 100%; /* Full width on smaller screens */
-    padding: 10px; /* Reduced padding for compactness */
-  }
 }

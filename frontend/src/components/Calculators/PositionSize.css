@@ -1,60 +1,53 @@
-/* Wrapper for the calculator form */
-.position-size-wrapper {
-  position: absolute;
-  top: 97px; /* Distance from the top */
-  right: 30px; /* Distance from the right edge */
-  z-index: 100;
-  display: flex;
-  justify-content: flex-end;
-  width: auto;
-}
-
 .calculator-form {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping to make inputs fit better */
-  gap: 10px; /* Reduced gap between elements */
-  width: 700px; /* Adjust width for landscape orientation */
-  height: auto; /* Auto height based on content */
-  margin: 0;
-  padding: 15px; /* Reduced padding for a smaller form */
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 120%; /* Stretches to fit container */
+  max-width: 1000px; /* Increased from 700px to make it wider */
+  height: auto;
+  margin-top: 10%;
+  margin-left: -23%;
+  padding: 20px;
   background-color: #161b22;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
+/* Rest of the styles remain unchanged */
 .calculator-form h3 {
   text-align: center;
-  font-size: 16px; /* Smaller font size for the header */
+  font-size: 16px;
   color: #c9d1d9;
   width: 100%;
-  margin-bottom: 10px; /* Reduced margin below the heading */
+  margin-bottom: 10px;
 }
 
 .calculator-form div {
   display: flex;
   align-items: center;
-  margin-bottom: 8px; /* Reduced margin between inputs */
-  width: 48%; /* Keep input divs small for compact layout */
+  margin-bottom: 8px;
+  width: 48%;
   justify-content: space-between;
 }
 
 .calculator-form label {
-  width: 120px; /* Keep a consistent width for labels */
+  width: 120px;
   font-weight: bold;
   color: #c9d1d9;
 }
 
 .calculator-form input,
 .calculator-form select {
-  padding: 6px 12px; /* Smaller padding for a more compact look */
+  padding: 6px 12px;
   font-size: 1em;
   width: 100%;
   max-width: 100%;
-  box-sizing: border-box; /* Prevent inputs from exceeding container width */
+  box-sizing: border-box;
 }
 
 .calculator-form button {
-  padding: 6px 18px; /* Reduced padding for a more compact button */
+  padding: 6px 18px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -69,8 +62,8 @@
 
 .result {
   margin-top: 15px;
-  padding: 6px; /* Reduced padding for a more compact result area */
-  color: #fff; /* Text color for the result */
+  padding: 6px;
+  color: #fff;
   border-radius: 5px;
   font-size: 14px;
   width: 100%;
@@ -78,12 +71,12 @@
 }
 
 .result h4 {
-  font-size: 14px; /* Smaller font size for the result heading */
+  font-size: 14px;
   margin-bottom: 5px;
 }
 
 .result pre {
-  background-color: transparent; /* No background color for the result */
+  background-color: transparent;
   padding: 10px;
   border-radius: 5px;
   margin: 0;

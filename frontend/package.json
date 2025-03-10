@@ -18,6 +18,7 @@
     "@mui/styled-engine": "^6.4.0",
     "axios": "^1.7.9",
     "jwt-decode": "^4.0.0",
+    "moment-timezone": "^0.5.47",
     "mongoose": "^8.10.1",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",

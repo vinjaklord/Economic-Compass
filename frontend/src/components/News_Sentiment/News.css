@@ -1,12 +1,13 @@
 .news-container {
-  width: 115%;
-  padding: 8px; /* Reduced padding for compactness */
+  width: 115%; /* Matches calculator’s stretch */
+  max-width: 1000px; /* Matches calculator’s max-width */
+  padding: 20px; /* Increased to match calculator */
   background-color: #0d1117;
   border-radius: 10px;
   font-family: 'Inter', sans-serif;
   box-sizing: border-box;
-  margin-top: 230px;
-  margin-left: -15%;
+  margin-top: -20px; /* Adjusted for spacing below calculator */
+  margin-left: -13%; /* Matches calculator’s offset */
   height: auto;
   position: relative;
   z-index: 10;
@@ -17,12 +18,12 @@
   border-collapse: collapse;
   background-color: #0d1117;
   color: #c9d1d9;
-  font-size: 12px; /* Reduced font size for compactness */
+  font-size: 12px;
 }
 
 .news-table th,
 .news-table td {
-  padding: 4px 6px; /* Reduced padding for vertical compactness */
+  padding: 4px 6px;
   border: 1px solid #30363d;
   text-align: left;
   vertical-align: middle;
@@ -42,16 +43,18 @@
   color: #fff;
 }
 
+/* Responsiveness */
 @media (max-width: 768px) {
   .news-container {
     width: 100%;
-    top: 0;
-    right: 0;
+    max-width: 100%; /* Full width on smaller screens */
+    margin-left: 0; /* Reset offset */
+    padding: 10px; /* Reduced padding for compactness */
   }
 
   .news-table th,
   .news-table td {
-    font-size: 9px; /* Further reduced font size for smaller screens */
+    font-size: 9px;
     padding: 4px 6px;
   }
 }

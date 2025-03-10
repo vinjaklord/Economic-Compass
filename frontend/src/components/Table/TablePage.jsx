@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import { fetchAPI } from '../../utils/index.js';
 import moment from 'moment-timezone';
-import './Table.css';
+import './TablePage.css';
 
-function Table() {
+function TablePage() {
   const [data, setData] = useState([]);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [hoveredCountry, setHoveredCountry] = useState(null);
@@ -18,27 +18,10 @@ function Table() {
         const lhMember = JSON.parse(
           sessionStorage.getItem('lh_member') || '{}'
         );
-        const favCurrencies = lhMember.favCurrencies
-          ? lhMember.favCurrencies.split(',').filter(Boolean)
-          : [];
-        const favImpact = lhMember.impact
-          ? lhMember.impact.split(',').filter(Boolean)
-          : [];
+
         const timeZone = (lhMember.timeZone || 'UTC').replace(/\\/g, '/');
 
         let filteredData = response.data;
-
-        if (favCurrencies.length > 0) {
-          filteredData = filteredData.filter((event) =>
-            favCurrencies.includes(event.country)
-          );
-        }
-
-        if (favImpact.length > 0) {
-          filteredData = filteredData.filter((event) =>
-            favImpact.includes(event.impact)
-          );
-        }
 
         const adjustedData = filteredData.map((event) => ({
           ...event,
@@ -95,8 +78,8 @@ function Table() {
   }, [data]);
 
   return (
-    <div className="table-container">
-      <table className="data-table">
+    <div className="tablePage-container">
+      <table className="dataPage-table">
         <thead>
           <tr>
             <th>Date</th>
@@ -195,4 +178,4 @@ function Table() {
   );
 }
 
-export default Table;
+export default TablePage;

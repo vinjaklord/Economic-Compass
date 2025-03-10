@@ -7,6 +7,7 @@ import HttpError from '../models/http-error.js';
 import { Password, Member } from '../models/members.js';
 import { Economics, News } from '../models/news.js';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -14,15 +15,16 @@ dotenv.config();
 const allCalendar = async (req, res) => {
   try {
     const data = await Economics.find(
-      { impact: { $ne: 'Low' } }, // Exclude 'low' impact
-      'title country date impact forecast previous -_id'
+      {}, // No filter, fetch all entries
+      'title country date impact forecast previous -_id' // Select fields, exclude _id
     )
-      .sort({ date: 1 })
-      .lean();
+      .sort({ date: 1 }) // Sort by date ascending
+      .lean(); // Return plain JS objects
 
     res.json(data);
   } catch (error) {
-    console.error('Error fetching API data from data.json  |  ', error.message);
+    console.error('Error fetching API data | ', error.message);
+    res.status(500).json({ error: 'An error occurred while fetching data' });
   }
 };
 
@@ -113,6 +115,11 @@ const signup = async (req, res, next) => {
   // Extract matched data
   const data = req.body;
 
+  // Replace any HTML encoded slashes (&#x2F;) with '/'
+  if (data.timeZone) {
+    data.timeZone = data.timeZone.replace(/&#x2F;/g, '/');
+  }
+
   // Hash the password
   const password = bcrypt.hashSync(data.password, 10);
 
@@ -158,6 +165,8 @@ const signup = async (req, res, next) => {
       email: newMember.email,
       firstName: newMember.firstName,
       lastName: newMember.lastName,
+      timeZone: newMember.timeZone, // Ensure timeZone is now correct
+      favCurrencies: newMember.favCurrencies,
     });
   } catch (error) {
     // Handle errors
@@ -221,7 +230,12 @@ const updateMember = async (req, res, next) => {
 
     const data = matchedData(req);
 
-    // gibt es den Member überhaupt? Wenn nein, Abbruch
+    // If timeZone exists, replace any encoded slashes (&#x2F;) with '/'
+    if (data.timeZone) {
+      data.timeZone = data.timeZone.replace(/&#x2F;/g, '/');
+    }
+
+    // Gibt es den Member überhaupt? Wenn nein, Abbruch
     const foundMember = await Member.findById(id);
 
     if (!foundMember) {
@@ -234,7 +248,7 @@ const updateMember = async (req, res, next) => {
     // Member speichern
     const updatedMember = await foundMember.save();
 
-    // geänderten Daten rausschicken
+    // Geänderten Daten rausschicken
     res.json(updatedMember);
   } catch (error) {
     return next(new HttpError(error, error.errorCode || 500));

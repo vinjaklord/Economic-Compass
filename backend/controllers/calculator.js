@@ -25,11 +25,10 @@ const positionSize = async (req, res, next) => {
   }
 
   try {
-    // Fetch exchange rate for baseCurrency
     const response = await axios.get(
       `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${baseCurrency}.json`
     );
-    // Fetch exchange rate for accountCurrency
+
     const response2 = await axios.get(
       `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${accountCurrency}.json`
     );

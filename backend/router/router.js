@@ -22,17 +22,17 @@ router.get('/news', news);
 
 router.post('/calculator', positionSize);
 
-router.get('/member/:id', getOneMember);
-
 router.post(
   '/signup',
-
   body('email').escape().isEmail().toLowerCase().normalizeEmail(),
   body('password').escape().isLength({ min: 6, max: 50 }),
   body('confirmPassword').escape().isLength({ min: 6, max: 50 }),
   body('username').trim().escape().isLength({ min: 4, max: 50 }),
   body('firstName').trim().escape(),
   body('lastName').trim().escape(),
+  body('favCurrencies').trim().escape().optional(),
+  body('timeZone').trim().escape().optional(),
+  body('impact').trim().escape().optional(),
   signup
 );
 
@@ -49,11 +49,19 @@ router.patch(
   body('firstName').trim().escape(),
   body('lastName').trim().escape(),
   body('username').trim().escape().isLength({ min: 4, max: 50 }),
+  body('favCurrencies').trim().escape(),
+  body('timeZone').trim().escape(),
+  body('impact').trim().escape(),
 
   updateMember
 );
 router.get(
   '/members/:id',
+
+  getOneMember
+);
+router.get(
+  '/member/:id',
 
   getOneMember
 );

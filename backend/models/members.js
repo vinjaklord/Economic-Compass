@@ -8,6 +8,9 @@ const membersSchema = new Schema(
     email: { type: String, required: true, unique: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
+    favCurrencies: { type: String, required: false },
+    timeZone: { type: String, required: false },
+    impact: { type: String, required: false },
     isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true }

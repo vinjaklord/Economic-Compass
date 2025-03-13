@@ -11,6 +11,7 @@ const membersSchema = new Schema(
     favCurrencies: { type: String, required: false },
     timeZone: { type: String, required: false },
     impact: { type: String, required: false },
+    favCalc: { type: String, required: false },
     isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true }

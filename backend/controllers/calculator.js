@@ -1,4 +1,5 @@
 import axios from 'axios';
+import xml2js from 'xml2js';
 
 const positionSize = async (req, res, next) => {
   const {
@@ -82,4 +83,71 @@ const positionSize = async (req, res, next) => {
   }
 };
 
-export { positionSize };
+const currencyConverter = async (req, res, next) => {
+  const { baseCurrency, targetCurrency, amount } = req.body;
+
+  const convertCurrency = async function (
+    baseCurrency,
+    targetCurrency,
+    amount
+  ) {
+    try {
+      const response = await axios.get(
+        'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
+      );
+
+      const xmlData = response.data;
+      const jsonData = await xml2js.parseStringPromise(xmlData);
+      const rates = jsonData['gesmes:Envelope']['Cube'][0]['Cube'][0]['Cube'];
+      const findRates = { EUR: 1 };
+
+      rates.forEach((rate) => {
+        findRates[rate.$.currency] = parseFloat(rate.$.rate);
+      });
+
+      const baseRate = findRates[baseCurrency];
+
+      const targetRate = findRates[targetCurrency];
+
+      if (!baseRate || !targetRate) {
+        throw new Error('Invalid currency code.');
+      }
+
+      const amountValue = parseFloat(amount);
+      if (isNaN(amountValue) || amountValue < 0) {
+        throw new Error('Invalid amount.');
+      }
+
+      const convertedAmount = (amountValue / baseRate) * targetRate;
+      return convertedAmount.toFixed(2);
+    } catch (error) {
+      throw new Error('Failed to fetch exchange rates or invalid input.');
+    }
+  };
+
+  const amountNum = amount;
+
+  if (
+    !baseCurrency ||
+    !targetCurrency ||
+    !amount ||
+    isNaN(amountNum) ||
+    amountNum < 0
+  ) {
+    return res.status(400).json({ error: 'Invalid parameters!' });
+  }
+
+  try {
+    const convertedAmount = await convertCurrency(
+      baseCurrency,
+      targetCurrency,
+      amount
+    );
+    res.json({ convertedAmount });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch exchange rates.' });
+  }
+};
+
+export { positionSize, currencyConverter };

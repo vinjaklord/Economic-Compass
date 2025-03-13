@@ -9,7 +9,7 @@ import {
   getOneMember,
   updateMember,
 } from '../controllers/controller.js';
-import { positionSize } from '../controllers/calculator.js';
+import { positionSize, currencyConverter } from '../controllers/calculator.js';
 
 const router = new Router();
 
@@ -20,7 +20,9 @@ router.get('/calendar/day/:day', whatDay);
 
 router.get('/news', news);
 
-router.post('/calculator', positionSize);
+router.post('/position-size', positionSize);
+router.post('/currency-converter', currencyConverter);
+router.p;
 
 router.post(
   '/signup',
@@ -45,14 +47,13 @@ router.post(
 
 router.patch(
   '/members/:id',
-
-  body('firstName').trim().escape(),
-  body('lastName').trim().escape(),
-  body('username').trim().escape().isLength({ min: 4, max: 50 }),
-  body('favCurrencies').trim().escape(),
-  body('timeZone').trim().escape(),
-  body('impact').trim().escape(),
-
+  body('firstName').trim().escape().optional(),
+  body('lastName').trim().escape().optional(),
+  body('username').trim().escape().isLength({ min: 4, max: 50 }).optional(),
+  body('favCurrencies').trim().escape().optional(),
+  body('timeZone').trim().escape().optional(),
+  body('impact').trim().escape().optional(),
+  body('favCalc').trim().escape().optional(),
   updateMember
 );
 router.get(

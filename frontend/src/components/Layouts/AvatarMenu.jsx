@@ -9,6 +9,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import BackgroundLetterAvatars from './LetterAvatar.jsx';
 
 import {
   FiberPin as PasswordIcon,
@@ -50,7 +51,7 @@ const AvatarMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar />
+            <BackgroundLetterAvatars />
           </IconButton>
         </Tooltip>
       </Box>

@@ -1,8 +1,35 @@
+import { useEffect, useState } from 'react';
 import Table from '../Table/Table';
 import News from '../News_Sentiment/News.jsx';
-import { PositionSize } from '../Calculators/PositionSize';
+import { PositionSize } from '../Calculators/PositionSize/PositionSize.jsx';
+import { CurrencyConverter } from '../Calculators/CurrencyConverter/CurrencyConverter.jsx';
 
 const Dashboard = () => {
+  const [favCalc, setFavCalc] = useState(null);
+  const calcComponents = {
+    posSize: PositionSize,
+    currConvert: CurrencyConverter,
+  };
+
+  const DefaultCalculator = PositionSize;
+
+  // Load favCalc from sessionStorage when logged in, otherwise use default sjnfdkngkjdfnglsdfgnjsnfgskgnlsnjgs
+  useEffect(() => {
+    const storedMember = sessionStorage.getItem('lh_member');
+    if (storedMember) {
+      const member = JSON.parse(storedMember);
+      setFavCalc(member.favCalc || null);
+    } else {
+      setFavCalc(null);
+    }
+  }, []);
+
+  // Select the calculator: use favCalc if set (logged in), otherwise DefaultCalculator
+  const SelectedCalculator =
+    favCalc !== null
+      ? calcComponents[favCalc] || DefaultCalculator
+      : DefaultCalculator;
+
   return (
     <div
       className="page-container"
@@ -17,7 +44,7 @@ const Dashboard = () => {
         className="dashboard-grid"
         style={{
           display: 'grid',
-          gridTemplateColumns: '55% 45%', // Still works with wider elements
+          gridTemplateColumns: '55% 45%',
           gridTemplateRows: 'auto 1fr',
           gap: '20px',
           width: '100%',
@@ -34,7 +61,7 @@ const Dashboard = () => {
             justifyContent: 'flex-end',
           }}
         >
-          <PositionSize />
+          <SelectedCalculator />
         </div>
         <div
           className="table-container"

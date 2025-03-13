@@ -12,6 +12,10 @@ import useStore from './hooks/useStore'; // Your custom store hook
 import Dashboard from './components/Layouts/Dashboard.jsx';
 import NewsPage from './components/News_Sentiment/NewsPage.jsx';
 import TablePage from './components/Table/TablePage.jsx';
+import Footer from './components/Footer/Footer.jsx';
+import CalculatorPage from './components/Calculator-Page/CalculatorPage.jsx';
+import { CurrencyConverterPage } from './components/Calculators/CurrencyConverter/CurrencyConverterPage.jsx';
+import { PositionSizePage } from './components/Calculators/PositionSize/PositionSizePage.jsx';
 
 function App() {
   const { loggedInMember, memberCheck } = useStore((state) => state);
@@ -28,6 +32,12 @@ function App() {
       <Route path="edit-profile" element={<MemberChangeProfile />} />
       <Route path="news" element={<NewsPage />} />
       <Route path="calendar" element={<TablePage />} />
+      <Route path="calculator" element={<CalculatorPage />} />
+      <Route path="calculator/position-size" element={<PositionSizePage />} />
+      <Route
+        path="calculator/currency-converter"
+        element={<CurrencyConverterPage />}
+      />
     </Routes>
   );
 
@@ -39,6 +49,12 @@ function App() {
       <Route path="signup" element={<Signup />} />
       <Route path="news" element={<NewsPage />} />
       <Route path="calendar" element={<TablePage />} />
+      <Route path="calculator" element={<CalculatorPage />} />
+      <Route path="calculator/position-size" element={<PositionSizePage />} />
+      <Route
+        path="calculator/currency-converter"
+        element={<CurrencyConverterPage />}
+      />
     </Routes>
   );
 
@@ -51,6 +67,7 @@ function App() {
       <CustomAlert />
       <Header />
       <Box sx={{ padding: 3 }}>{routes}</Box>
+      <Footer />
     </Router>
   );
 }

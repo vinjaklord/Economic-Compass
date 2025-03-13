@@ -1,0 +1,59 @@
+.calculatorPage {
+  margin-top: 5%;
+  padding: 20px; /* Padding around the page */
+}
+
+.cardWrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  gap: 30px; /* Reduced from 20px to bring cards closer together */
+
+  justify-items: center; /* Center cards within their grid cells */
+  max-width: 900px; /* Limit the grid width to keep cards closer */
+  margin: 0 auto; /* Center the grid container horizontally */
+}
+
+.calculatorCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #24292f;
+  color: #e1e4e8;
+  border-radius: 10px;
+  width: 100%; /* Full width of grid cell */
+  max-width: 400px; /* Cap card width for readability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.calculatorCard:hover {
+  transform: scale(1.05); /* Hover effect */
+}
+
+.calculatorCard img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.calculatorCard h3 {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.calculatorCard p {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .cardWrapper {
+    grid-template-columns: 1fr; /* Stack cards on small screens */
+    max-width: 500px; /* Narrower container on mobile */
+  }
+  .calculatorCard {
+    margin-bottom: 20px; /* Space between stacked cards */
+  }
+}

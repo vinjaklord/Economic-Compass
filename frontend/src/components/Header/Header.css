@@ -1,15 +1,14 @@
 .header-container {
-  background-color: #161b22;
-  padding: 12px 20px;
+  background-color: #161b22; /* Matching the footer background color */
+  color: #c9d1d9; /* Light text color for contrast */
+  padding: 15px 0;
+  text-align: center;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif; /* Same font as the footer */
 }
 
 .header-logo img {
@@ -18,10 +17,12 @@
 }
 
 .header-nav {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
   display: flex;
-  gap: 30px;
-  align-items: center;
-  margin-left: 20px;
+  justify-content: center;
+  gap: 25px;
 }
 
 .header-nav a {
@@ -33,8 +34,14 @@
 }
 
 .header-nav a:hover {
-  color: #58a6ff;
+  color: #58a6ff; /* Highlight color similar to GitHub */
   transform: scale(1.05);
+}
+
+.header-bottom {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #8b949e;
 }
 
 @media (max-width: 768px) {
@@ -42,7 +49,9 @@
     flex-direction: column;
     align-items: center;
   }
+
   .header-nav {
     gap: 20px;
+    flex-direction: column;
   }
 }

@@ -1,7 +1,7 @@
 .table-container {
   width: 90%; /* Stretches to fit grid cell */
   max-width: 1200px; /* Wider than before, but capped for balance */
-  margin: 10px 0; /* Simplified margin, removed left/right */
+  margin: 2.3% 0; /* Simplified margin, removed left/right */
   padding: 20px; /* Increased padding to match calculator */
   position: relative;
   top: 0; /* Removed unnecessary offset */

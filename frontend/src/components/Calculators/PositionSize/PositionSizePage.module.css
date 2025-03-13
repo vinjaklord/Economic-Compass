@@ -1,0 +1,88 @@
+.calculatorForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+  max-width: 800px; /* Adjusted width to prevent stretching */
+  height: auto;
+  margin: 0 auto; /* Centers the form horizontally */
+  padding: 20px;
+  background-color: #161b22;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin-top: 5%; /* Adjusted top margin */
+}
+
+.calculatorForm h3 {
+  text-align: center;
+  font-size: 24px; /* Increased font size for better visibility */
+  color: #c9d1d9;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.calculatorForm div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px; /* Increased margin for spacing */
+  width: 48%;
+  justify-content: space-between;
+}
+
+.calculatorForm label {
+  width: 120px;
+  font-weight: bold;
+  color: #c9d1d9;
+}
+
+.calculatorForm input,
+.calculatorForm select {
+  padding: 10px 12px;
+  font-size: 1em;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #ccc; /* Added border to inputs */
+}
+
+.calculatorForm button {
+  padding: 12px 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.calculatorForm button:hover {
+  background-color: #0056b3;
+}
+
+.result {
+  margin-top: 20px;
+  padding: 12px;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #333;
+  width: 100%;
+  height: auto;
+}
+
+.result h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.result pre {
+  background-color: transparent;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0;
+  overflow-x: auto;
+  font-size: 14px;
+}

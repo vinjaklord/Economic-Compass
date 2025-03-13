@@ -18,12 +18,15 @@ function Table() {
         const lhMember = JSON.parse(
           sessionStorage.getItem('lh_member') || '{}'
         );
+
         const favCurrencies = lhMember.favCurrencies
           ? lhMember.favCurrencies.split(',').filter(Boolean)
           : [];
+
         const favImpact = lhMember.impact
           ? lhMember.impact.split(',').filter(Boolean)
           : [];
+
         const timeZone = (lhMember.timeZone || 'UTC').replace(/\\/g, '/');
 
         let filteredData = response.data;

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { fetchAPI } from '../../../utils';
-import styles from './CurrencyConverterPage.module.css'; // Import the CSS module
+import styles from './CurrencyConverterPage.module.css';
 
+// Same logic as the CurrencyConverter.jsx
 function CurrencyConverterPage() {
   const [formData, setFormData] = useState({
     baseCurrency: 'EUR',
     targetCurrency: 'USD',
-    amount: '', // Still starts empty, but user can now input a value
+    amount: '',
   });
 
   const [result, setResult] = useState('0.00');
@@ -35,7 +36,7 @@ function CurrencyConverterPage() {
         data: form,
       });
 
-      setResult(response.data.convertedAmount); // Correct property
+      setResult(response.data.convertedAmount);
     } catch (err) {
       console.error('Error during calculation:', err);
     }
@@ -53,7 +54,37 @@ function CurrencyConverterPage() {
             value={formData.baseCurrency}
             onChange={handleChange}
           >
-            {/* Currency options */}
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="JPY">JPY</option>
+            <option value="BGN">BGN</option>
+            <option value="CZK">CZK</option>
+            <option value="DKK">DKK</option>
+            <option value="GBP">GBP</option>
+            <option value="HUF">HUF</option>
+            <option value="PLN">PLN</option>
+            <option value="RON">RON</option>
+            <option value="SEK">SEK</option>
+            <option value="CHF">CHF</option>
+            <option value="ISK">ISK</option>
+            <option value="NOK">NOK</option>
+            <option value="TRY">TRY</option>
+            <option value="AUD">AUD</option>
+            <option value="BRL">BRL</option>
+            <option value="CAD">CAD</option>
+            <option value="CNY">CNY</option>
+            <option value="HKD">HKD</option>
+            <option value="IDR">IDR</option>
+            <option value="ILS">ILS</option>
+            <option value="INR">INR</option>
+            <option value="KRW">KRW</option>
+            <option value="MXN">MXN</option>
+            <option value="MYR">MYR</option>
+            <option value="NZD">NZD</option>
+            <option value="PHP">PHP</option>
+            <option value="SGD">SGD</option>
+            <option value="THB">THB</option>
+            <option value="ZAR">ZAR</option>
           </select>
         </div>
 
@@ -64,7 +95,37 @@ function CurrencyConverterPage() {
             value={formData.targetCurrency}
             onChange={handleChange}
           >
-            {/* Currency options */}
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="JPY">JPY</option>
+            <option value="BGN">BGN</option>
+            <option value="CZK">CZK</option>
+            <option value="DKK">DKK</option>
+            <option value="GBP">GBP</option>
+            <option value="HUF">HUF</option>
+            <option value="PLN">PLN</option>
+            <option value="RON">RON</option>
+            <option value="SEK">SEK</option>
+            <option value="CHF">CHF</option>
+            <option value="ISK">ISK</option>
+            <option value="NOK">NOK</option>
+            <option value="TRY">TRY</option>
+            <option value="AUD">AUD</option>
+            <option value="BRL">BRL</option>
+            <option value="CAD">CAD</option>
+            <option value="CNY">CNY</option>
+            <option value="HKD">HKD</option>
+            <option value="IDR">IDR</option>
+            <option value="ILS">ILS</option>
+            <option value="INR">INR</option>
+            <option value="KRW">KRW</option>
+            <option value="MXN">MXN</option>
+            <option value="MYR">MYR</option>
+            <option value="NZD">NZD</option>
+            <option value="PHP">PHP</option>
+            <option value="SGD">SGD</option>
+            <option value="THB">THB</option>
+            <option value="ZAR">ZAR</option>
           </select>
         </div>
 

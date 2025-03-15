@@ -1,80 +1,90 @@
-/* Ensure the body and html take the full height of the viewport */
+/* Ensure full height for the page */
 html,
 body {
-  height: 100%; /* Full viewport height */
-  margin: 0; /* Remove any default margin */
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: #0d1117; /* Match app background */
+  font-family: 'Inter', sans-serif;
 }
 
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100%; /* Ensures the body takes the full height */
+  min-height: 100vh;
 }
 
+/* Footer */
 .footer {
-  background-color: #161b22;
-  color: #fff;
-  padding: 20px 0;
+  background: linear-gradient(to top, #161b22, #131c2b); /* Subtle gradient */
+  color: #c9d1d9;
+  padding: 40px 0 20px; /* Increased top padding */
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: auto; /* Pushes footer to the bottom of the page */
+  margin-top: auto; /* Pushes footer to bottom */
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2); /* Subtle top shadow */
 }
 
+/* Footer Container */
 .footer-container {
   display: flex;
   justify-content: space-around;
-  width: 80%;
-  margin-bottom: 20px;
+  width: 90%; /* Slightly wider */
+  max-width: 1200px; /* Cap width */
+  margin-bottom: 30px;
 }
 
+/* Footer Sections */
 .footer-section {
   width: 30%;
 }
 
+/* Section Headings */
 .footer-section h1 {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 1.2rem; /* Slightly larger */
+  margin-bottom: 16px;
+  color: #58a6ff; /* Match app highlight */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
+/* Paragraphs and Lists */
 .footer-section p,
 .footer-section ul {
-  font-size: 14px;
+  font-size: 0.9rem;
+  color: #c9d1d9;
 }
 
-.footer-section ul {
+/* About Section */
+.footer-about p {
+  line-height: 1.5; /* Better readability */
+}
+
+/* Links Section */
+.footer-links ul {
   list-style-type: none;
   padding: 0;
 }
 
-.footer-section ul li {
-  margin: 5px 0;
+.footer-links ul li {
+  margin: 8px 0; /* Increased spacing */
 }
 
-.footer-section ul li a {
-  color: #fff;
+.footer-links ul li a {
+  color: #c9d1d9;
   text-decoration: none;
+  position: relative; /* For underline animation */
+  transition: color 0.2s ease;
 }
 
-.footer-section ul li a:hover {
-  text-decoration: underline;
-}
-
-.footer-bottom {
-  width: 80%;
-  text-align: center;
-  font-size: 12px;
-}
-
-@media (max-width: 768px) {
-  .footer-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .footer-section {
-    width: 80%;
-    margin-bottom: 20px;
-    text-align: center;
-  }
+.footer-links ul li a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -4px;
+  left: 0;
 }

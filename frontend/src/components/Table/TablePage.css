@@ -1,11 +1,22 @@
 .tablePage-container {
-  width: 85%;
-  margin: 100px;
+  width: 65%;
+  margin: 80px auto;
   padding: 10px;
   position: relative;
   top: 10px;
 
   font-family: 'Inter', sans-serif;
+}
+
+.tablePage-container::before {
+  content: 'All Economic Events - This Week';
+  font-size: 24px;
+  font-weight: 600;
+  color: #58a6ff;
+  display: block;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #58a6ff;
+  padding-bottom: 10px;
 }
 
 .dataPage-table {

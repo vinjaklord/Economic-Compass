@@ -1,7 +1,8 @@
-import { Grid2 as Grid, Typography, Box } from '@mui/material'; // Keep Grid as Grid2
+import { Grid2 as Grid, Typography, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/economicCompass.png';
 import AvatarMenu from '../Layouts/AvatarMenu';
+import './Header.css'; // Add this import if not already present
 
 const Header = () => {
   const LINKS = [
@@ -14,8 +15,8 @@ const Header = () => {
   return (
     <Grid
       container
+      className="header-container"
       sx={{
-        backgroundColor: '#161b22',
         p: 2,
         position: 'fixed',
         top: 0,
@@ -23,63 +24,49 @@ const Header = () => {
         width: '100%',
         zIndex: 1000,
         display: 'flex',
-        justifyContent: 'space-between', // Distribute space between the logo, nav, and avatar menu
+        justifyContent: 'space-between',
         alignItems: 'center',
       }}
     >
       {/* Logo Section */}
       <Grid xs={3} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <Link to="/">
+        <Link to="/" className="header-logo">
           <img
-            style={{
-              height: '50px',
-              transition: 'filter 0.3s ease',
-            }}
             src={Logo}
-            alt="Logo"
+            alt="Economic Compass Logo"
+            style={{ height: '50px' }}
           />
         </Link>
       </Grid>
 
       {/* Navigation Links */}
       <Grid
-        xs={6} // Adjust this as needed
+        xs={6}
         sx={{
           display: 'flex',
-          justifyContent: 'flex-start',
+          justifyContent: 'center',
           gap: 4,
-          marginLeft: '10px',
         }}
       >
         {LINKS.map((link) => (
           <Typography
             key={link.to}
-            color="white"
             variant="h6"
             component={Link}
             to={link.to}
-            sx={{
-              textDecoration: 'none',
-              fontWeight: 500,
-              fontSize: '18px',
-              transition: 'color 0.2s ease, transform 0.2s ease',
-              '&:hover': {
-                color: '#ecf0f1',
-                transform: 'scale(1.05)',
-              },
-            }}
+            className="header-nav-link"
           >
             {link.label}
           </Typography>
         ))}
       </Grid>
 
-      {/* Avatar Menu - Positioned to the right */}
+      {/* Avatar Menu */}
       <Grid
         xs={3}
         sx={{
           display: 'flex',
-          justifyContent: 'flex-end', // Push the avatar menu to the right
+          justifyContent: 'flex-end',
         }}
       >
         <AvatarMenu />

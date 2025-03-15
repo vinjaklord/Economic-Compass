@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useMemo } from 'react';
 import { fetchAPI } from '../../utils/index.js';
 import moment from 'moment-timezone';
@@ -8,22 +9,27 @@ function Table() {
   const [hoveredDate, setHoveredDate] = useState(null);
   const [hoveredCountry, setHoveredCountry] = useState(null);
   const [hoveredRow, setHoveredRow] = useState(null);
-
+  const [memberProfile, setMemberProfile] = useState(() =>
+    JSON.parse(localStorage.getItem('lh_member') || '{}')
+  );
+  // A lot of filters are present for the table component, that's why there is a function to handle all the filters
   const fetchAndFilterData = () => {
     fetchAPI({
       method: 'get',
       url: '/calendar',
     })
       .then((response) => {
-        const lhMember = JSON.parse(
-          sessionStorage.getItem('lh_member') || '{}'
-        );
+        const lhMember = memberProfile;
 
-        const favCurrencies = lhMember.favCurrencies
+        const favCurrencies = Array.isArray(lhMember.favCurrencies)
+          ? lhMember.favCurrencies
+          : lhMember.favCurrencies
           ? lhMember.favCurrencies.split(',').filter(Boolean)
           : [];
 
-        const favImpact = lhMember.impact
+        const favImpact = Array.isArray(lhMember.impact)
+          ? lhMember.impact
+          : lhMember.impact
           ? lhMember.impact.split(',').filter(Boolean)
           : [];
 
@@ -55,15 +61,22 @@ function Table() {
       });
   };
 
-  // Initial fetch
+  // Fetch data when memberProfile fields change
   useEffect(() => {
     fetchAndFilterData();
-  }, []);
+  }, [
+    memberProfile.favCurrencies,
+    memberProfile.impact,
+    memberProfile.timeZone,
+  ]);
 
   // Listen for profile updates
   useEffect(() => {
     const handleProfileUpdate = () => {
-      fetchAndFilterData();
+      const updatedMember = JSON.parse(
+        localStorage.getItem('lh_member') || '{}'
+      );
+      setMemberProfile(updatedMember); // Update state to trigger re-fetch
     };
 
     window.addEventListener('profileUpdated', handleProfileUpdate);
@@ -72,11 +85,12 @@ function Table() {
   }, []);
 
   const groupedData = useMemo(() => {
+    // Creates an object to group events by date and country
     const groups = {};
-    const lhMember = JSON.parse(sessionStorage.getItem('lh_member') || '{}');
-    const timeZone = (lhMember.timeZone || 'UTC').replace(/\\/g, '/');
+    const timeZone = (memberProfile.timeZone || 'UTC').replace(/\\/g, '/');
 
     data.forEach((event) => {
+      // Convert event date to local time zone and format it as a readable string
       const dateKey = moment
         .utc(event.date)
         .tz(timeZone)
@@ -84,6 +98,7 @@ function Table() {
         .toLocaleDateString();
       const countryKey = event.country;
 
+      // Initialize date and country groups if they don't exist
       if (!groups[dateKey]) {
         groups[dateKey] = {};
       }
@@ -91,14 +106,17 @@ function Table() {
         groups[dateKey][countryKey] = [];
       }
 
+      // Add event to the corresponding date and country group
       groups[dateKey][countryKey].push(event);
     });
 
     return groups;
-  }, [data]);
+  }, [data, memberProfile.timeZone]); // Recomputes only when data or time zone changes
 
   return (
     <div className="table-container">
+      <div className="table-title">Economic Calendar - This Week</div>
+
       <table className="data-table">
         <thead>
           <tr>
@@ -123,23 +141,21 @@ function Table() {
                 {Object.entries(countries).map(
                   ([country, events], countryIndex) => {
                     return events.map((event, eventIndex) => {
-                      const lhMember = JSON.parse(
-                        sessionStorage.getItem('lh_member') || '{}'
-                      );
-                      const timeZone = (lhMember.timeZone || 'UTC').replace(
-                        /\\/g,
-                        '/'
-                      );
+                      const timeZone = (
+                        memberProfile.timeZone || 'UTC'
+                      ).replace(/\\/g, '/');
                       return (
                         <tr
                           key={`event-${dateIndex}-${countryIndex}-${eventIndex}`}
                           data-date={date}
                           data-country={country}
                           className={
-                            (hoveredDate === date ? 'highlight-date' : '') ||
+                            (hoveredDate === date ? 'highlight-date' : '') +
+                            ' ' +
                             (hoveredCountry === country
                               ? 'highlight-country'
-                              : '') ||
+                              : '') +
+                            ' ' +
                             (hoveredRow === `${date}-${country}-${eventIndex}`
                               ? 'highlight-row'
                               : '')

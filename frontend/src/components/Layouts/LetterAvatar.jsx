@@ -32,7 +32,7 @@ function stringAvatar(name) {
 }
 
 export default function BackgroundLetterAvatars() {
-  const lhMember = JSON.parse(sessionStorage.getItem('lh_member'));
+  const lhMember = JSON.parse(localStorage.getItem('lh_member'));
 
   // If the user is logged in, use their first and last name, otherwise show a default avatar
   if (lhMember && lhMember.firstName && lhMember.lastName) {

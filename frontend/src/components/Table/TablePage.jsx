@@ -15,9 +15,7 @@ function TablePage() {
       url: '/calendar',
     })
       .then((response) => {
-        const lhMember = JSON.parse(
-          sessionStorage.getItem('lh_member') || '{}'
-        );
+        const lhMember = JSON.parse(localStorage.getItem('lh_member') || '{}');
 
         const timeZone = (lhMember.timeZone || 'UTC').replace(/\\/g, '/');
 
@@ -53,7 +51,7 @@ function TablePage() {
 
   const groupedData = useMemo(() => {
     const groups = {};
-    const lhMember = JSON.parse(sessionStorage.getItem('lh_member') || '{}');
+    const lhMember = JSON.parse(localStorage.getItem('lh_member') || '{}');
     const timeZone = (lhMember.timeZone || 'UTC').replace(/\\/g, '/');
 
     data.forEach((event) => {
@@ -104,7 +102,7 @@ function TablePage() {
                   ([country, events], countryIndex) => {
                     return events.map((event, eventIndex) => {
                       const lhMember = JSON.parse(
-                        sessionStorage.getItem('lh_member') || '{}'
+                        localStorage.getItem('lh_member') || '{}'
                       );
                       const timeZone = (lhMember.timeZone || 'UTC').replace(
                         /\\/g,

@@ -77,11 +77,19 @@ const Signup = () => {
       });
     }
 
-    const userData = { ...formState, favCurrencies };
-    // Ensure timeZone has forward slashes (though it should already)
+    const userData = {
+      username: formState.username,
+      password: formState.password,
+      confirmPassword: formState.confirmPassword, // Include if backend expects it
+      email: formState.email,
+      firstName: formState.firstName,
+      lastName: formState.lastName,
+      timeZone: formState.timeZone,
+      favCurrencies: favCurrencies,
+      impact: favImpact,
+    };
 
-    console.log('Sending userData:', userData); // Debug log
-
+    console.log('userData:', userData); // Debug the data
     const response = await memberSignup(userData);
 
     if (response) {
@@ -108,11 +116,11 @@ const Signup = () => {
     <div className="signup-container">
       <div className="signup-form">
         <Typography variant="h4" component="h1" className="signup-header">
-          Sign Up
+          Create Account
         </Typography>
 
-        <Grid container spacing={2}>
-          <Grid xs={12}>
+        <Grid container spacing={3}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
               label="Username"
@@ -123,7 +131,7 @@ const Signup = () => {
               className="text-field"
             />
           </Grid>
-          <Grid xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
               label="Email Address"
@@ -134,7 +142,7 @@ const Signup = () => {
               className="text-field"
             />
           </Grid>
-          <Grid xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
               label="Password"
@@ -159,7 +167,7 @@ const Signup = () => {
               }}
             />
           </Grid>
-          <Grid xs={12}>
+          <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
               label="Confirm Password"
@@ -184,7 +192,7 @@ const Signup = () => {
               }}
             />
           </Grid>
-          <Grid xs={12}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
               label="First Name"
@@ -195,7 +203,7 @@ const Signup = () => {
               className="text-field"
             />
           </Grid>
-          <Grid xs={12}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
               label="Last Name"
@@ -206,8 +214,12 @@ const Signup = () => {
               className="text-field"
             />
           </Grid>
-          <Grid xs={12}>
-            <FormControl fullWidth variant="outlined">
+          <Grid size={{ xs: 12 }}>
+            <FormControl
+              fullWidth
+              variant="outlined"
+              className="time-zone-select"
+            >
               <InputLabel>Time Zone</InputLabel>
               <Select
                 name="timeZone"
@@ -215,9 +227,6 @@ const Signup = () => {
                 onChange={handleFormChange}
                 label="Time Zone"
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
                 {timeZones.map((tz) => (
                   <MenuItem key={tz} value={tz}>
                     {tz}
@@ -226,49 +235,59 @@ const Signup = () => {
               </Select>
             </FormControl>
           </Grid>
-
-          <Grid xs={12}>
-            <Typography variant="h6">Favorite Currencies</Typography>
-            {[
-              'AUD',
-              'CAD',
-              'CHF',
-              'CNY',
-              'EUR',
-              'GBP',
-              'JPY',
-              'NZD',
-              'USD',
-            ].map((currency) => (
-              <FormControlLabel
-                key={currency}
-                control={
-                  <Checkbox
-                    value={currency}
-                    checked={favCurrencies.split(',').includes(currency)}
-                    onChange={handleCurrencyChange}
-                  />
-                }
-                label={currency}
-              />
-            ))}
+          <Grid size={{ xs: 12 }}>
+            <Typography variant="h6" className="section-header">
+              Preferred Currencies
+            </Typography>
+            <div className="checkbox-group">
+              {[
+                'AUD',
+                'CAD',
+                'CHF',
+                'CNY',
+                'EUR',
+                'GBP',
+                'JPY',
+                'NZD',
+                'USD',
+              ].map((currency) => (
+                <FormControlLabel
+                  key={currency}
+                  control={
+                    <Checkbox
+                      value={currency}
+                      checked={favCurrencies.split(',').includes(currency)}
+                      onChange={handleCurrencyChange}
+                      className="custom-checkbox"
+                    />
+                  }
+                  label={currency}
+                  className="checkbox-label"
+                />
+              ))}
+            </div>
           </Grid>
-
-          <Grid xs={12}>
-            <Typography variant="h6">Favorite Currencies</Typography>
-            {['Low', 'Medium', 'High', 'Holiday'].map((impact) => (
-              <FormControlLabel
-                key={impact}
-                control={
-                  <Checkbox
-                    value={impact}
-                    checked={favImpact.split(',').includes(impact)}
-                    onChange={handleImpactChange}
-                  />
-                }
-                label={impact}
-              />
-            ))}
+          <Grid size={{ xs: 12 }}>
+            <Typography variant="h6" className="section-header">
+              Preferred Impact Levels
+            </Typography>
+            <div className="checkbox-group">
+              {['Low', 'Medium', 'High', 'Holiday'].map((impact) => (
+                <FormControlLabel
+                  key={impact}
+                  control={
+                    <Checkbox
+                      value={impact}
+                      checked={favImpact.split(',').includes(impact)}
+                      onChange={handleImpactChange}
+                      className="custom-checkbox"
+                    />
+                  }
+                  label={impact}
+                  className="checkbox-label"
+                />
+              ))}
+            </div>
           </Grid>
         </Grid>
 
@@ -281,7 +300,7 @@ const Signup = () => {
         </Button>
 
         <div className="login-link">
-          <Link href="/login" variant="body1">
+          <Link href="/login" variant="body1" className="login-link-text">
             Already have an account? Log in
           </Link>
         </div>

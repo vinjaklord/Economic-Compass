@@ -1,12 +1,12 @@
 .currConvertForm {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  width: 100%; /* Ensures it doesn't stretch too far */
+  gap: 10px; /* Increased gap for better spacing */
+  width: 120%; /* Increased width to match posSize calculator */
   max-width: 1000px;
   height: auto;
-  margin-top: 10%;
-  margin-left: -15%;
+  margin-top: 10%; /* Adjusted margin-top for better positioning */
+  margin-left: -23.5%;
   padding: 20px;
   background-color: #161b22;
   border-radius: 10px;
@@ -14,28 +14,32 @@
   box-sizing: border-box;
 }
 
+/* Heading */
 .currConvertForm h3 {
   text-align: center;
   font-size: 24px;
   color: #c9d1d9;
+  margin-top: 1%;
   width: 100%;
   margin-bottom: 20px;
 }
 
+/* Form group for input elements */
 .formGroup {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin-bottom: 15px; /* Increased margin for better spacing */
   width: 48%;
 }
 
 .formGroup label {
   font-weight: bold;
   color: #c9d1d9;
-  margin-bottom: 5px;
+  margin-bottom: 8px; /* Increased margin for consistency */
 }
 
+/* Inputs and selects styling */
 .currConvertForm input,
 .currConvertForm select {
   padding: 6px 12px;
@@ -43,10 +47,14 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  border-radius: 5px;
-  border: 1px solid #ccc;
 }
 
+.currConvertForm input:focus,
+.currConvertForm select:focus {
+  border-color: #007bff; /* Blue border on focus */
+}
+
+/* Convert button */
 .convertButton {
   padding: 6px 18px;
   background-color: #007bff;
@@ -55,32 +63,36 @@
   cursor: pointer;
   width: 100%;
   margin-top: 10px;
-  border-radius: 5px;
 }
 
 .convertButton:hover {
   background-color: #0056b3;
 }
 
+/* Result box */
 .result {
-  margin-top: 10px;
-  padding: 10px;
+  margin-top: 10px; /* Reduced space between result and form */
+  padding: 15px;
+  background-color: #222e3b; /* Darker background for result */
   color: #fff;
-  background-color: #333;
-  border-radius: 5px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 30%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .result h4 {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 18px;
+  margin-bottom: 24px; /* Bring text closer */
+  font-weight: 600; /* Make it slightly bolder for better contrast */
 }
 
 .result pre {
-  background-color: transparent;
-  padding: 10px;
+  background-color: #1e2428; /* Slightly lighter background for the result block */
+  padding: 12px;
   border-radius: 5px;
-  margin: 0;
   overflow-x: auto;
   font-size: 14px;
+  margin-top: 10px;
 }

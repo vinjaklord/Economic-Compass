@@ -22,8 +22,8 @@ const useStore = create((set, get) => ({
       }
 
       // wenn nicht angemeldet
-      //  Token aus sessionStorage laden,
-      const token = sessionStorage.getItem('lh_token');
+      //  Token aus localStorage laden,
+      const token = localStorage.getItem('lh_token');
       if (!token) {
         return;
       }
@@ -42,13 +42,13 @@ const useStore = create((set, get) => ({
 
       // console.log(exp, currentDate);
 
-      //  wenn Token ungültig -> Token und andere Infos aus sessionStorage löschen
+      //  wenn Token ungültig -> Token und andere Infos aus localStorage löschen
       if (exp < currentDate) {
         return get().memberLogout();
       }
 
-      //  wenn Token gültig -> loggedInMember-Daten aus sessionStorage laden
-      const loggedInMember = JSON.parse(sessionStorage.getItem('lh_member'));
+      //  wenn Token gültig -> loggedInMember-Daten aus localStorage laden
+      const loggedInMember = JSON.parse(localStorage.getItem('lh_member'));
       if (!loggedInMember) {
         return get().memberLogout();
       }
@@ -75,8 +75,8 @@ const useStore = create((set, get) => ({
       const decodedToken = jwtDecode(token);
       const { id } = decodedToken;
 
-      // Token ins sessionStorage speichern
-      sessionStorage.setItem('lh_token', token);
+      // Token ins localStorage speichern
+      localStorage.setItem('lh_token', token);
 
       // einige Daten in den Store speichern
       set({ token, decodedToken });
@@ -86,8 +86,8 @@ const useStore = create((set, get) => ({
       const loggedInMember = response.data;
       set({ loggedInMember });
 
-      // loggedInMember in sessionStorage speichern
-      sessionStorage.setItem('lh_member', JSON.stringify(loggedInMember));
+      // loggedInMember in localStorage speichern
+      localStorage.setItem('lh_member', JSON.stringify(loggedInMember));
 
       get().raiseAlert({
         text: 'Success! Have a nice day!',
@@ -105,9 +105,9 @@ const useStore = create((set, get) => ({
     }
   },
   memberLogout: () => {
-    // sessionStorage löschen
-    sessionStorage.removeItem('lh_token');
-    sessionStorage.removeItem('lh_member');
+    // localStorage löschen
+    localStorage.removeItem('lh_token');
+    localStorage.removeItem('lh_member');
 
     // Store resetten
     set({ ...initalState });
@@ -169,8 +169,8 @@ const useStore = create((set, get) => ({
     const loggedInMember = response.data;
     set({ loggedInMember });
 
-    // member-Daten in sessionStorage ändern
-    sessionStorage.setItem('lh_member', JSON.stringify(loggedInMember));
+    // member-Daten in localStorage ändern
+    localStorage.setItem('lh_member', JSON.stringify(loggedInMember));
   },
 
   memberSignup: async (data) => {

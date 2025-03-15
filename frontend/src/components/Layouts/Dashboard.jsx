@@ -13,9 +13,9 @@ const Dashboard = () => {
 
   const DefaultCalculator = PositionSize;
 
-  // Load favCalc from sessionStorage when logged in, otherwise use default sjnfdkngkjdfnglsdfgnjsnfgskgnlsnjgs
+  // Load favCalc from localStorage when logged in, otherwise use default sjnfdkngkjdfnglsdfgnjsnfgskgnlsnjgs
   useEffect(() => {
-    const storedMember = sessionStorage.getItem('lh_member');
+    const storedMember = localStorage.getItem('lh_member');
     if (storedMember) {
       const member = JSON.parse(storedMember);
       setFavCalc(member.favCalc || null);

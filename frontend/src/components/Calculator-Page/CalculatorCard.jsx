@@ -19,7 +19,7 @@ export default function ActionAreaCard({
   return (
     <Card
       sx={{
-        maxWidth: 345,
+        width: 400,
         backgroundColor: '#24292F',
         color: '#E1E4E8',
         textAlign: 'center',

@@ -2,95 +2,146 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #0d1117; /* Dark background */
+  background: #0d1117;
   font-family: 'Inter', sans-serif;
+  min-height: 100vh;
 }
 
 .member-change-profile-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 .member-change-profile-form {
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  max-width: 400px;
-  padding: 32px;
-  background-color: #161b22; /* Darker background for form */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  max-width: 600px;
+  padding: 40px;
+  background: #161b22;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
 }
 
-/* Styling for header */
+/* Header Styling */
 .member-change-profile-header {
   text-align: center;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  font-size: 2rem; /* Adjust font size */
+  margin-bottom: 40px;
+  font-size: 2.2rem;
   font-weight: 700;
-  color: #58a6ff; /* GitHub blue for headings */
-  letter-spacing: 1px;
+  color: #58a6ff;
+  letter-spacing: 0.5px;
 }
 
 /* Input Fields Styling */
-.text-field {
-  margin-bottom: 16px; /* Add margin between input fields */
+.text-field .MuiOutlinedInput-root {
+  background: #21262d;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
-.text-field .MuiOutlinedInput-root {
-  background-color: #21262d; /* Dark background for input fields */
-  border-radius: 4px;
-  border: 1px solid #ffffff; /* White border around input fields */
-  width: 100%; /* Ensure inputs take full width of their container */
+.text-field .MuiOutlinedInput-notchedOutline {
+  border-color: #30363d;
+}
+
+.text-field:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #58a6ff;
+}
+
+.text-field .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #58a6ff;
+  border-width: 2px;
+}
+
+.text-field .MuiInputLabel-root {
+  color: #8b949e;
+}
+
+.text-field .Mui-focused.MuiInputLabel-root {
+  color: #58a6ff;
 }
 
 .text-field input {
-  color: #ffffff; /* White text color inside the input fields */
+  color: #c9d1d9;
 }
 
-/* Label Styling */
-.text-field .MuiInputLabel-root {
-  color: #ffffff56; /* White label color */
+/* Time Zone Select Styling */
+.time-zone-select .MuiOutlinedInput-root {
+  background: #21262d;
+  border-radius: 6px;
 }
 
-/* Focused Input Styling */
-.text-field .MuiOutlinedInput-root.Mui-focused {
-  border: 1px solid #ffffff56; /* White border when focused */
+.time-zone-select .MuiSelect-select {
+  color: #c9d1d9;
 }
 
-.text-field .MuiOutlinedInput-input {
-  color: #ffffff; /* Ensures the text in the input is white */
+.time-zone-select .MuiOutlinedInput-notchedOutline {
+  border-color: #30363d;
+}
+
+.time-zone-select:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #58a6ff;
+}
+
+.time-zone-select .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #58a6ff;
+}
+
+.time-zone-select .MuiInputLabel-root {
+  color: #8b949e;
+}
+
+.time-zone-select .Mui-focused.MuiInputLabel-root {
+  color: #58a6ff;
+}
+
+/* Checkbox Group Styling */
+.section-header {
+  color: #c9d1d9;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #30363d;
+}
+
+.checkbox-group {
+  background: #21262d;
+  padding: 16px;
+  border-radius: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.checkbox-label {
+  color: #c9d1d9;
+  margin-right: 16px;
+}
+
+.custom-checkbox {
+  color: #58a6ff;
+}
+
+.custom-checkbox.Mui-checked {
+  color: #58a6ff;
 }
 
 /* Button Styling */
 .member-change-profile-button {
-  margin-top: 24px;
-  width: 100%;
-  font-weight: bold;
-  background-color: #58a6ff; /* GitHub blue for button */
-  color: #ffffff; /* White text color */
-  border-radius: 4px; /* Rounded corners */
-  padding: 12px;
+  margin-top: 32px;
+  padding: 12px 24px;
+  background: linear-gradient(45deg, #58a6ff, #1f6feb);
+  border-radius: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
 }
 
 .member-change-profile-button:hover {
-  background-color: #4c8cc4; /* Lighter blue on hover */
-}
-
-/* Link Styling */
-.login-link {
-  text-align: center;
-  margin-top: 16px;
-}
-
-.login-link a {
-  color: #58a6ff; /* GitHub blue for link */
-  text-decoration: none;
-}
-
-.login-link a:hover {
-  text-decoration: underline;
+  background: linear-gradient(45deg, #4c8cc4, #1857c2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
 }

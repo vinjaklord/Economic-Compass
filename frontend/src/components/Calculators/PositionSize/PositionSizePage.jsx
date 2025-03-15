@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { fetchAPI } from '../../../utils';
-import styles from './PositionSizePage.module.css'; // Import the CSS module
-
+import styles from './PositionSizePage.module.css';
+// Same logic as PositionSize.jsx
 function PositionSizePage() {
   const [formData, setFormData] = useState({
-    baseCurrency: 'eur', // Default base currency
-    comparedTo: 'usd', // Default compared currency
+    baseCurrency: 'eur',
+    comparedTo: 'usd',
     accountSize: '',
     riskRatio: '',
     stopLoss: '',
@@ -176,7 +176,7 @@ function PositionSizePage() {
 
         {result && (
           <div className={styles.result}>
-            <h4>Calculation Result:</h4>
+            <h4>Lot Size:</h4>
             <pre>{JSON.stringify(result, null, 2)}</pre>
           </div>
         )}

@@ -63,26 +63,28 @@
 }
 
 .result {
-  margin-top: 20px;
-  padding: 12px;
+  margin-top: 10px; /* Reduced space between result and form */
+  padding: 15px;
+  background-color: #222e3b; /* Darker background for result */
   color: #fff;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: #333;
+  border-radius: 8px;
+  font-size: 16px;
   width: 100%;
-  height: auto;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Added shadow for better visual appeal */
 }
 
 .result h4 {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 18px;
+  margin-bottom: 24px; /* Bring text closer */
+  font-weight: 600; /* Make it slightly bolder for better contrast */
 }
 
 .result pre {
-  background-color: transparent;
-  padding: 10px;
+  background-color: #1e2428; /* Slightly lighter background for the result block */
+  padding: 12px;
   border-radius: 5px;
-  margin: 0;
   overflow-x: auto;
   font-size: 14px;
+  margin-top: 10px; /* Reduced space between the result heading and the preformatted text */
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchAPI } from '../../utils/index.js';
-import moment from 'moment-timezone'; // Import moment-timezone for time zone conversions
+import moment from 'moment-timezone';
 import './News.css';
 
 const News = () => {
@@ -8,9 +8,9 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Get the user's time zone from sessionStorage (default to 'UTC' if not found)
-  const userTimeZone = sessionStorage.getItem('lh_member')
-    ? JSON.parse(sessionStorage.getItem('lh_member')).timeZone || 'UTC'
+  // Get the user's time zone from localStorage (default to 'UTC' if not found)
+  const userTimeZone = localStorage.getItem('lh_member')
+    ? JSON.parse(localStorage.getItem('lh_member')).timeZone || 'UTC'
     : 'UTC';
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const News = () => {
 
   return (
     <div className="news-container">
+      <div className="news-title">Top News - Last Hour</div>
       {loading && <p>Loading news...</p>}
       {error && <p>{error}</p>}
       <table className="news-table">

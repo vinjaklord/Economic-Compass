@@ -6,32 +6,34 @@ import { fetchAPI } from '../../utils/index.js';
 
 export default function CalculatorPage() {
   const [favoriteCard, setFavoriteCard] = useState(null);
+
   const { loggedInMember, raiseAlert } = useStore((state) => state);
 
+  // On component mount, check localStorage for a stored member and set the favorite calculator card
   useEffect(() => {
-    const storedMember = sessionStorage.getItem('lh_member');
+    const storedMember = localStorage.getItem('lh_member');
     if (storedMember) {
       const member = JSON.parse(storedMember);
-      setFavoriteCard(member.favCalc || null);
+      setFavoriteCard(member.favCalc || null); // Set favorite calculator from localStorage
     }
-  }, []);
+  }, []); // Empty dependency array ensures this only runs on mount
 
-  const updateSessionStorage = async (newFavCalc) => {
+  // Function to update localStorage and backend when the favorite calculator is changed
+  const updatelocalStorage = async (newFavCalc) => {
     const updatedMember = {
       ...loggedInMember,
       favCalc: newFavCalc,
     };
 
-    // Update sessionStorage locally
-    sessionStorage.setItem('lh_member', JSON.stringify(updatedMember));
+    // Update the localStorage with the new favorite calculator
+    localStorage.setItem('lh_member', JSON.stringify(updatedMember));
 
-    // Sync with backend database using PATCH /members/:id
     try {
       await fetchAPI({
         method: 'patch',
-        url: `/members/${loggedInMember._id}`, // Use member ID in URL
+        url: `/members/${loggedInMember._id}`,
         data: {
-          favCalc: newFavCalc, // Only send favCalc
+          favCalc: newFavCalc, // Send only the updated favorite calculator
         },
       });
 
@@ -42,6 +44,7 @@ export default function CalculatorPage() {
       });
     } catch (error) {
       console.error('Failed to update database:', error);
+
       raiseAlert({
         severity: 'error',
         title: 'Error',
@@ -50,24 +53,29 @@ export default function CalculatorPage() {
     }
   };
 
+  // Function to toggle the favorite calculator card
   const handleFavoriteToggle = (cardId) => {
+    // If the card is already the favorite, unselect it, otherwise select it
     const newFavCalc = favoriteCard === cardId ? null : cardId;
-    setFavoriteCard(newFavCalc);
-    updateSessionStorage(newFavCalc);
+    setFavoriteCard(newFavCalc); // Update the state with the new favorite calculator
+    updatelocalStorage(newFavCalc); // Update the localStorage and backend
   };
 
   return (
     <div className={styles.calculatorPage}>
       <div className={styles.cardWrapper}>
+        {/* Position Size Calculator Card */}
         <CalculatorCard
           id="posSize"
           image="/posSize.jpg"
           title="Position Size Calculator"
-          description="The Position Size Calculator will calculate the required position size based on your currency pair, risk level (either in terms of percentage or money) and the stop loss in pips."
-          isFavorited={favoriteCard === 'posSize'}
-          onFavoriteToggle={() => handleFavoriteToggle('posSize')}
-          link="/calculator/position-size"
+          description="The Position Size Calculator will calculate the required position size based on your currency pair, risk level and the stop loss in pips."
+          isFavorited={favoriteCard === 'posSize'} // Check if this card is the favorite
+          onFavoriteToggle={() => handleFavoriteToggle('posSize')} // Toggle the favorite status when clicked
+          link="/calculator/position-size" // Link to the Position Size Calculator page
         />
+
+        {/* Currency Converter Card */}
         <CalculatorCard
           id="currConvert"
           image="/currConvert.jpg"
@@ -76,6 +84,30 @@ export default function CalculatorPage() {
           isFavorited={favoriteCard === 'currConvert'}
           onFavoriteToggle={() => handleFavoriteToggle('currConvert')}
           link="/calculator/currency-converter"
+        />
+
+        {/* Leverage Calculator Card (Coming Soon) */}
+        <CalculatorCard
+          id="levCalc"
+          image="/comingSoon.jpg"
+          title="Leverage Calculator"
+          description="The leverage calculator will calculate the required leverage to open your trading position based on your account currency, the traded currency pair and trade size."
+
+          // isFavorited={favoriteCard === 'levCalc'}
+          // onFavoriteToggle={() => handleFavoriteToggle('levCalc')}
+          // link="/calculator/position-size"
+        />
+
+        {/* Profit Calculator Card (Coming Soon) */}
+        <CalculatorCard
+          id="profitCalc"
+          image="/comingSoon.jpg"
+          title="Profit Calculator"
+          description="Use our Profit Calculator to calculate your expected profit or loss in money and pips based on your entry and exit prices, lot size and trade direction."
+
+          // isFavorited={favoriteCard === 'profitCalc'}
+          // onFavoriteToggle={() => handleFavoriteToggle('profitCalc')}
+          // link="/calculator/currency-converter"
         />
       </div>
     </div>

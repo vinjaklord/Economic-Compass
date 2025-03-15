@@ -52,18 +52,25 @@ body {
 }
 
 /* Button Styling */
-.login-button {
-  margin-top: 24px;
-  width: 100%;
-  font-weight: bold;
-  background-color: #58a6ff; /* GitHub blue for button */
-  color: #ffffff; /* White text color */
-  border-radius: 4px; /* Rounded corners */
-  padding: 12px;
+.login-button.MuiButton-root {
+  margin-top: 28px; /* Space above button */
+  margin-left: auto; /* Center horizontally */
+  margin-right: auto; /* Center horizontally */
+  display: block; /* Required for centering with margins */
+  padding: 10px 32px; /* Increased from 12px 24px to make bigger */
+  background: linear-gradient(45deg, #58a6ff, #1f6feb);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1.1rem; /* Slightly larger text, optional */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
 }
 
-.login-button:hover {
-  background-color: #4c8cc4; /* Lighter blue on hover */
+.login-button.MuiButton-root:hover {
+  background: linear-gradient(45deg, #4c8cc4, #1857c2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
 }
 
 /* Register Link Styling */

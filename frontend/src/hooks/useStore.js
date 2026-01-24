@@ -16,44 +16,30 @@ const useStore = create((set, get) => ({
   ...initalState,
   memberCheck: async () => {
     try {
-      // Prüfen, ob Member angemeldet ist
       if (get().loggedInMember) {
         return;
       }
 
-      // wenn nicht angemeldet
-      //  Token aus localStorage laden,
       const token = localStorage.getItem('lh_token');
       if (!token) {
         return;
       }
 
-      // console.log('was ist token', token);
-
-      //  Token dekodieren
       const decodedToken = jwtDecode(token);
 
-      // console.log('was ist decodedToken', decodedToken);
       const { id, exp } = decodedToken;
 
-      //  Gültigkeit prüfen (Ablaufdatum/-uhrzeit)
-      // const expireDate = Number(ext);
       const currentDate = Number(new Date()) / 1000;
 
-      // console.log(exp, currentDate);
-
-      //  wenn Token ungültig -> Token und andere Infos aus localStorage löschen
       if (exp < currentDate) {
         return get().memberLogout();
       }
 
-      //  wenn Token gültig -> loggedInMember-Daten aus localStorage laden
       const loggedInMember = JSON.parse(localStorage.getItem('lh_member'));
       if (!loggedInMember) {
         return get().memberLogout();
       }
 
-      // Status des Stores updaten
       set({ token, decodedToken, loggedInMember });
     } catch (error) {
       console.log(error);
@@ -61,32 +47,24 @@ const useStore = create((set, get) => ({
   },
   memberLogin: async (data) => {
     try {
-      // Daten an API senden
       let response = await fetchAPI({
         method: 'post',
         url: '/login',
         data,
       });
 
-      // TODO: Statuscode 200 prüfen
-
-      // Token checken, ID rausholen
       const token = response.data;
       const decodedToken = jwtDecode(token);
       const { id } = decodedToken;
 
-      // Token ins localStorage speichern
       localStorage.setItem('lh_token', token);
 
-      // einige Daten in den Store speichern
       set({ token, decodedToken });
 
-      // Stammdaten des eingeloggten Members holen
-      response = await fetchAPI({ url: '/member/' + id, token });
+      response = await fetchAPI({ url: '/members/' + id, token });
       const loggedInMember = response.data;
       set({ loggedInMember });
 
-      // loggedInMember in localStorage speichern
       localStorage.setItem('lh_member', JSON.stringify(loggedInMember));
 
       get().raiseAlert({
@@ -95,7 +73,6 @@ const useStore = create((set, get) => ({
 
       return true;
     } catch (error) {
-      // console.log('was ist error', error);
       get().raiseAlert({
         severity: 'error',
         text: error.response.data.message ?? error.message,
@@ -105,16 +82,13 @@ const useStore = create((set, get) => ({
     }
   },
   memberLogout: () => {
-    // localStorage löschen
     localStorage.removeItem('lh_token');
     localStorage.removeItem('lh_member');
 
-    // Store resetten
     set({ ...initalState });
   },
   memberChangePassword: async (data) => {
     try {
-      // Daten an API senden
       await fetchAPI({
         method: 'patch',
         url: '/members/change-password',
@@ -139,19 +113,17 @@ const useStore = create((set, get) => ({
 
   memberChangeProfile: async (data) => {
     try {
-      // Ensure all required fields are included, e.g., default current values if not changing
-
       await fetchAPI({
         method: 'PATCH',
         url: '/members/' + get().loggedInMember._id,
-        data, // Send as JSON
+        data,
         headers: {
-          'Content-Type': 'application/json', // Ensure the server knows it's JSON
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${get().token}`,
         },
       });
 
-      await get().memberRefreshMe(); // Refresh the member data after successful update
+      await get().memberRefreshMe();
       await get().raiseAlert({ text: 'Profile successfully edited!' });
     } catch (error) {
       console.error(error);
@@ -159,9 +131,6 @@ const useStore = create((set, get) => ({
   },
 
   memberRefreshMe: async () => {
-    // LoggedInMember neu holen und in Session Store neu schreiben
-    // Memberdaten von API neu holen
-    // damit Store updaten
     const response = await fetchAPI({
       url: '/members/' + get().loggedInMember._id,
       token: get().token,
@@ -169,7 +138,6 @@ const useStore = create((set, get) => ({
     const loggedInMember = response.data;
     set({ loggedInMember });
 
-    // member-Daten in localStorage ändern
     localStorage.setItem('lh_member', JSON.stringify(loggedInMember));
   },
 
@@ -213,17 +181,14 @@ const useStore = create((set, get) => ({
 
   memberDelete: async () => {
     try {
-      // Daten an Rest API senden
       await fetchAPI({
         method: 'delete',
         url: '/members/' + get().loggedInMember._id,
         token: get().token,
       });
 
-      // Member sicherheitshalber ausloggen
       get().memberLogout();
 
-      // Erfolgsmeldung als Snackbar
       get().raiseAlert({
         severity: 'info',
         text: 'Sorry to see you leave :(',
@@ -244,7 +209,7 @@ const useStore = create((set, get) => ({
     const defaultAlert = {
       severity: 'success',
       variant: 'filled',
-      duration: 5000, // Default duration is 5000ms (5 seconds)
+      duration: 5000,
       text: 'Standard-Meldung',
     };
 

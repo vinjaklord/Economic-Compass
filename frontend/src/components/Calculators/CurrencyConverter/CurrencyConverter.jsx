@@ -1,32 +1,31 @@
 import { useState } from 'react';
 import { fetchAPI } from '../../../utils';
-import styles from './CurrencyConverter.module.css'; // Import the CSS module for styling
+import styles from './CurrencyConverter.module.css';
 
-function CurrencyConverter() {
-  // State to manage form inputs
+function CurrencyConverter({ variant = 'dashboard' }) {
   const [formData, setFormData] = useState({
-    baseCurrency: 'EUR', // Default base currency
-    targetCurrency: 'USD', // Default target currency
-    amount: '', // User can input an amount
+    baseCurrency: 'EUR',
+    targetCurrency: 'USD',
+    amount: '',
   });
 
-  // State to store the conversion result
   const [result, setResult] = useState('0.00');
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Handles input field changes and updates the form state
+  const isFullPage = variant === 'page';
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value, // Dynamically update the corresponding field
+      [name]: value,
     }));
   };
 
-  // Handles form submission and fetches conversion data
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
+    setIsLoading(true);
 
-    // Prepare the form data object
     const form = {
       baseCurrency: formData.baseCurrency,
       targetCurrency: formData.targetCurrency,
@@ -34,26 +33,28 @@ function CurrencyConverter() {
     };
 
     try {
-      // Make an API request to convert the currency
       const response = await fetchAPI({
         method: 'post',
         url: '/currency-converter',
         data: form,
       });
-
-      // Update the state with the conversion result
       setResult(response.data.convertedAmount);
     } catch (err) {
-      console.error('Error during calculation:', err); // Log any errors
+      console.error('Error during calculation:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const containerClass = isFullPage
+    ? styles.currConvertFormPage
+    : styles.currConvertForm;
+
   return (
     <form onSubmit={handleSubmit}>
-      <div className={styles.currConvertForm}>
+      <div className={containerClass}>
         <h3>Currency Converter</h3>
 
-        {/* Base Currency Selection */}
         <div className={styles.formGroup}>
           <label htmlFor="baseCurrency">Base Currency:</label>
           <select
@@ -61,7 +62,6 @@ function CurrencyConverter() {
             value={formData.baseCurrency}
             onChange={handleChange}
           >
-            {/* Currency options */}
             <option value="EUR">EUR</option>
             <option value="USD">USD</option>
             <option value="JPY">JPY</option>
@@ -96,7 +96,6 @@ function CurrencyConverter() {
           </select>
         </div>
 
-        {/* Target Currency Selection */}
         <div className={styles.formGroup}>
           <label htmlFor="targetCurrency">Target Currency:</label>
           <select
@@ -138,7 +137,6 @@ function CurrencyConverter() {
           </select>
         </div>
 
-        {/* Amount Input */}
         <div className={styles.formGroup}>
           <label htmlFor="amount">Amount:</label>
           <input
@@ -153,18 +151,20 @@ function CurrencyConverter() {
           />
         </div>
 
-        {/* Submit Button */}
-        <button type="submit" className={styles.convertButton}>
-          Convert
-        </button>
-
-        {/* Display the conversion result */}
-        {result && (
+        {result && result !== '0.00' && (
           <div className={styles.result}>
-            <h4>Calculation Result:</h4>
+            <h4>Converted Amount:</h4>
             <pre>{JSON.stringify(result, null, 2)}</pre>
           </div>
         )}
+
+        <button
+          type="submit"
+          className={`${styles.convertButton} ${isLoading ? styles.loading : ''}`}
+          disabled={isLoading}
+        >
+          {isLoading ? <span className={styles.spinner}></span> : 'Convert'}
+        </button>
       </div>
     </form>
   );

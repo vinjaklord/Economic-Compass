@@ -1,7 +1,4 @@
-// Imports
 import axios from 'axios';
-
-// Konstanten
 
 const fetchAPI = (options = {}) => {
   const defaultConfig = {

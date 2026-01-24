@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
-import { Link } from 'react-router-dom'; // Import Link for redirection
+import { Link } from 'react-router-dom'; 
 
 export default function ActionAreaCard({
   image,
@@ -26,7 +26,7 @@ export default function ActionAreaCard({
       }}
     >
       <CardActionArea component={Link} to={link}>
-        {/* Link component for redirection */}
+        
         <CardMedia component="img" height="140" image={image} alt={title} />
         <CardContent>
           <Typography
@@ -43,11 +43,11 @@ export default function ActionAreaCard({
           <IconButton
             aria-label="add to favorites"
             onClick={(e) => {
-              e.preventDefault(); // Prevent navigation on icon click
-              onFavoriteToggle(); // Toggle the favorite state
+              e.preventDefault(); // prevent navigation on icon click
+              onFavoriteToggle(); 
             }}
             sx={{
-              color: isFavorited ? '#ff4081' : '#B1B6B8', // Change color if favorited
+              color: isFavorited ? '#ff4081' : '#B1B6B8', 
             }}
           >
             <FavoriteIcon />

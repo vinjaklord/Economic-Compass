@@ -53,29 +53,28 @@ export default function CalculatorPage() {
     }
   };
 
-  // Function to toggle the favorite calculator card
   const handleFavoriteToggle = (cardId) => {
-    // If the card is already the favorite, unselect it, otherwise select it
+    // if card is not favorite select it if not - unselect
     const newFavCalc = favoriteCard === cardId ? null : cardId;
-    setFavoriteCard(newFavCalc); // Update the state with the new favorite calculator
-    updatelocalStorage(newFavCalc); // Update the localStorage and backend
+    setFavoriteCard(newFavCalc);
+    updatelocalStorage(newFavCalc);
   };
 
   return (
     <div className={styles.calculatorPage}>
       <div className={styles.cardWrapper}>
-        {/* Position Size Calculator Card */}
+        {/* Position Size*/}
         <CalculatorCard
           id="posSize"
           image="/posSize.jpg"
           title="Position Size Calculator"
           description="The Position Size Calculator will calculate the required position size based on your currency pair, risk level and the stop loss in pips."
-          isFavorited={favoriteCard === 'posSize'} // Check if this card is the favorite
-          onFavoriteToggle={() => handleFavoriteToggle('posSize')} // Toggle the favorite status when clicked
-          link="/calculator/position-size" // Link to the Position Size Calculator page
+          isFavorited={favoriteCard === 'posSize'}
+          onFavoriteToggle={() => handleFavoriteToggle('posSize')}
+          link="/calculator/position-size"
         />
 
-        {/* Currency Converter Card */}
+        {/* Currency Converter */}
         <CalculatorCard
           id="currConvert"
           image="/currConvert.jpg"

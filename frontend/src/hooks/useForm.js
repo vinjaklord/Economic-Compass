@@ -1,39 +1,31 @@
 import { useState } from 'react';
 
 const useForm = (defaultFormState = {}) => {
-  // Lokalen State
   const [formState, setFormState] = useState(defaultFormState);
 
-  // Input handler
   const handleFormChange = (event) => {
-    // Daten aus Event rausholen
     const { name, value, files } = event.target;
 
-    // neue physische Kopie von formState anlegen
+    // new copy
     const newFormState = { ...formState };
 
     newFormState[name] = value;
 
-    // Photo-Upload anders behandeln
     if (name === 'photo') {
       newFormState.photo = files[0];
     }
 
-    // lokalen State updaten
     setFormState(newFormState);
   };
 
   const updateFormField = (fieldName, fieldValue) => {
-    // neue physische Kopie von formState anlegen
     const newFormState = { ...formState };
 
     newFormState[fieldName] = fieldValue;
 
-    // lokalen State updaten
     setFormState(newFormState);
   };
 
-  // returnieren: aktuellen Formulardaten als Objekt, Inputhandler
   return { formState, handleFormChange, updateFormField };
 };
 

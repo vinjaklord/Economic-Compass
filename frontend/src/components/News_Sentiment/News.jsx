@@ -3,10 +3,13 @@ import { fetchAPI } from '../../utils/index.js';
 import moment from 'moment-timezone';
 import './News.css';
 
-const News = () => {
+const News = ({ variant = 'dashboard' }) => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const isFullPage = variant === 'page';
+  const isDashboard = variant === 'dashboard';
 
   // Get the user's time zone from localStorage (default to 'UTC' if not found)
   const userTimeZone = localStorage.getItem('lh_member')
@@ -39,14 +42,20 @@ const News = () => {
     return moment.utc(time).tz(userTimeZone).format('YYYY/MM/DD HH:mm');
   };
 
-  // Limit the number of news entries to 12
-  const limitedNews = news.slice(0, 12);
+  // Limit news to 12 for dashboard, show all for full page
+  const displayedNews = isDashboard ? news.slice(0, 12) : news;
+
+  const containerClass = isFullPage ? 'newsPage-container' : 'news-container';
+  const title = isFullPage ? 'Top News' : 'Top News - Last Hour';
 
   return (
-    <div className="news-container">
-      <div className="news-title">Top News - Last Hour</div>
+    <div className={containerClass}>
+      {isFullPage && <div className="page-title">{title}</div>}
+      {isDashboard && <div className="news-title">{title}</div>}
+
       {loading && <p>Loading news...</p>}
       {error && <p>{error}</p>}
+
       <table className="news-table">
         <thead>
           <tr>
@@ -56,7 +65,7 @@ const News = () => {
           </tr>
         </thead>
         <tbody>
-          {limitedNews.map((newsItem, index) => (
+          {displayedNews.map((newsItem, index) => (
             <tr key={index}>
               <td>
                 <a

@@ -2,87 +2,162 @@
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  width: 120%; /* Stretches to fit container */
-  max-width: 1000px; /* Increased from 700px to make it wider */
-  height: auto;
-  margin-top: 10%;
-  margin-left: -23%;
+  width: 100%;
   padding: 20px;
-  background-color: #161b22;
+  background-color: #0d1117;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+.calculatorFormPage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #0d1117;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+.calculatorForm h3 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #58a6ff;
+  width: 100%;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #58a6ff;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  width: calc(50% - 7.5px);
   box-sizing: border-box;
 }
 
-/* Rest of the styles remain unchanged */
-.calculatorForm h3 {
-  text-align: center;
-  font-size: 16px;
+.formGroup label {
+  font-weight: 600;
   color: #c9d1d9;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.calculatorForm div {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  width: 48%;
-  justify-content: space-between;
-}
-
-.calculatorForm label {
-  width: 120px;
-  font-weight: bold;
-  color: #c9d1d9;
+  margin-bottom: 6px;
+  font-size: 14px;
 }
 
 .calculatorForm input,
 .calculatorForm select {
-  padding: 6px 12px;
-  font-size: 1em;
+  padding: 10px 12px;
+  font-size: 14px;
   width: 100%;
-  max-width: 100%;
+  background-color: #161b22;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  border-radius: 6px;
   box-sizing: border-box;
+  transition: border-color 0.2s ease;
 }
 
-.calculatorForm button {
-  padding: 6px 18px;
-  background-color: #007bff;
+.calculatorForm input:focus,
+.calculatorForm select:focus {
+  outline: none;
+  border-color: #58a6ff;
+}
+
+.calculateButton {
+  padding: 12px 24px;
+  background: linear-gradient(to bottom, #238636, #196c2e);
   color: white;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
   width: 100%;
   margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.2s ease;
 }
 
-.calculatorForm button:hover {
-  background-color: #0056b3;
+.calculateButton:hover {
+  background: linear-gradient(to bottom, #2ea043, #238636);
 }
 
 .result {
-  margin-top: 10px; /* Reduced space between result and form */
+  margin-top: 15px;
   padding: 15px;
-  background-color: #222e3b; /* Darker background for result */
-  color: #fff;
+  background-color: #161b22;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
   width: 100%;
   box-sizing: border-box;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Added shadow for better visual appeal */
 }
 
 .result h4 {
-  font-size: 18px;
-  margin-bottom: 24px; /* Bring text closer */
-  font-weight: 600; /* Make it slightly bolder for better contrast */
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #58a6ff;
 }
 
 .result pre {
-  background-color: #1e2428; /* Slightly lighter background for the result block */
+  background-color: #0d1117;
   padding: 12px;
   border-radius: 5px;
   overflow-x: auto;
   font-size: 14px;
-  margin-top: 10px; /* Reduced space between the result heading and the preformatted text */
+  margin: 0;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.calculateButton.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .formGroup {
+    width: 100%;
+  }
+
+  .calculatorForm h3 {
+    font-size: 18px;
+  }
+
+  .calculatorForm input,
+  .calculatorForm select {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .calculateButton {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
 }

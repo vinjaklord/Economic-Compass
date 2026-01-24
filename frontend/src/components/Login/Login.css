@@ -1,89 +1,312 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #0d1117; /* Dark background */
+  background-color: #0d1117;
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  position: relative;
+}
+
+.login-background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(88, 166, 255, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(88, 166, 255, 0.08) 0%,
+      transparent 50%
+    );
+  animation: backgroundPulse 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes backgroundPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 400px;
-  padding: 32px;
-  background-color: #161b22; /* Darker background for form */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  max-width: 460px;
+  padding: 48px 40px;
+  background: linear-gradient(to bottom, #161b22, #0d1117);
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(88, 166, 255, 0.1);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.6s ease-out;
 }
 
-/* Styling for login header */
-.login-header {
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-logo-container {
   text-align: center;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  font-size: 2rem; /* Adjust font size */
-  font-weight: 600;
-
-  color: #58a6ff; /* GitHub blue for headings */
-  letter-spacing: 1px; /* Adds slight space between letters for a more polished look */
+  margin-bottom: 32px;
+  animation: fadeIn 0.8s ease-out 0.2s both;
 }
 
-/* Input Fields Styling */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.login-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 4px 12px rgba(88, 166, 255, 0.3));
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.login-brand-name {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px !important;
+  letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+  color: #8b949e !important;
+  font-size: 0.9rem !important;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
+.login-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #30363d 50%, transparent);
+  margin-bottom: 32px;
+}
+
+.login-fields {
+  animation: fadeIn 0.8s ease-out 0.4s both;
+}
+
 .text-field {
-  margin-bottom: 16px; /* Add margin between input fields */
-  background-color: #21262d; /* Darker background for inputs */
-  color: #c9d1d9; /* Text color */
+  margin-bottom: 16px;
 }
 
 .text-field .MuiOutlinedInput-root {
-  background-color: #ffffff56; /* Dark background for input fields */
-  border-radius: 4px;
+  background-color: #0d1117;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.text-field input {
-  color: #c9d1d9; /* Text color for input */
+.text-field .MuiOutlinedInput-root:hover {
+  background-color: #161b22;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Button Styling */
-.login-button.MuiButton-root {
-  margin-top: 28px; /* Space above button */
-  margin-left: auto; /* Center horizontally */
-  margin-right: auto; /* Center horizontally */
-  display: block; /* Required for centering with margins */
-  padding: 10px 32px; /* Increased from 12px 24px to make bigger */
-  background: linear-gradient(45deg, #58a6ff, #1f6feb);
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 1.1rem; /* Slightly larger text, optional */
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.text-field .MuiOutlinedInput-notchedOutline {
+  border-color: #30363d;
   transition: all 0.3s ease;
 }
 
-.login-button.MuiButton-root:hover {
-  background: linear-gradient(45deg, #4c8cc4, #1857c2);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+.text-field:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #58a6ff;
 }
 
-/* Register Link Styling */
+.text-field .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #58a6ff !important;
+  border-width: 2px;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+.text-field .MuiInputLabel-root {
+  color: #8b949e;
+  transition: color 0.3s ease;
+}
+
+.text-field .Mui-focused.MuiInputLabel-root {
+  color: #58a6ff !important;
+}
+
+.text-field input {
+  color: #c9d1d9;
+}
+
+.visibility-icon {
+  color: #8b949e !important;
+  transition: color 0.2s ease;
+}
+
+.visibility-icon:hover {
+  color: #58a6ff !important;
+}
+
+/* Login button */
+.login-button.MuiButton-root {
+  margin-top: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button.MuiButton-root::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.login-button.MuiButton-root:hover::before {
+  left: 100%;
+}
+
+.login-button.MuiButton-root:hover {
+  background: linear-gradient(135deg, #4c8cc4 0%, #1857c2 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(88, 166, 255, 0.4);
+}
+
+.login-button.MuiButton-root:active {
+  transform: translateY(0);
+}
+
+.login-button.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .register-link {
   text-align: center;
-  margin-top: 16px;
+  margin-top: 24px;
+  animation: fadeIn 0.8s ease-out 0.6s both;
 }
 
-.register-link a {
-  color: #58a6ff; /* GitHub blue for link */
+.register-text {
+  color: #8b949e !important;
+  font-size: 0.9rem !important;
+}
+
+.register-link-text {
+  color: #58a6ff !important;
   text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-.register-link a:hover {
-  text-decoration: underline;
+.register-link-text::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #58a6ff;
+  transition: width 0.3s ease;
+}
+
+.register-link-text:hover::after {
+  width: 100%;
+}
+
+.register-link-text:hover {
+  color: #79c0ff !important;
+}
+
+@media (max-width: 768px) {
+  .login-form {
+    padding: 32px 24px;
+  }
+
+  .login-logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .login-brand-name {
+    font-size: 1.6rem !important;
+  }
 }

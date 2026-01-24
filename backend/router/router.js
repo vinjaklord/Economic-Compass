@@ -13,6 +13,19 @@ import { positionSize, currencyConverter } from '../controllers/calculator.js';
 
 const router = new Router();
 
+router.get('/members/:id', getOneMember);
+router.patch(
+  '/members/:id',
+  body('firstName').trim().escape().optional(),
+  body('lastName').trim().escape().optional(),
+  body('username').trim().escape().isLength({ min: 4, max: 50 }).optional(),
+  body('favCurrencies').trim().escape().optional(),
+  body('timeZone').trim().escape().optional(),
+  body('impact').trim().escape().optional(),
+  body('favCalc').trim().escape().optional(),
+  updateMember,
+);
+
 router.get('/', allCalendar);
 router.get('/calendar', allCalendar);
 
@@ -35,36 +48,14 @@ router.post(
   body('favCurrencies').trim().escape().optional(),
   body('timeZone').trim().escape().optional(),
   body('impact').trim().escape().optional(),
-  signup
+  signup,
 );
 
 router.post(
   '/login',
   body('username').escape().optional(),
   body('password').escape().optional(),
-  login
-);
-
-router.patch(
-  '/members/:id',
-  body('firstName').trim().escape().optional(),
-  body('lastName').trim().escape().optional(),
-  body('username').trim().escape().isLength({ min: 4, max: 50 }).optional(),
-  body('favCurrencies').trim().escape().optional(),
-  body('timeZone').trim().escape().optional(),
-  body('impact').trim().escape().optional(),
-  body('favCalc').trim().escape().optional(),
-  updateMember
-);
-router.get(
-  '/members/:id',
-
-  getOneMember
-);
-router.get(
-  '/member/:id',
-
-  getOneMember
+  login,
 );
 
 export default router;

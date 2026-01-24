@@ -13,31 +13,31 @@ import {
 } from '@mui/material';
 import useStore from '../../hooks/useStore.js';
 import useForm from '../../hooks/useForm.js';
+import Logo from '../../assets/economicCompass.png';
 import './MemberChangeProfile.css';
 import { useNavigate } from 'react-router-dom';
 
 const MemberChangeProfile = () => {
   const { loggedInMember, memberChangeProfile, raiseAlert } = useStore(
-    (state) => state
+    (state) => state,
   );
 
   const [favImpact, setFavImpact] = useState('');
   const [favCurrencies, setFavCurrencies] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Sync state with loggedInMember when it changes
   useEffect(() => {
-    // Update favImpact and favCurrencies when the loggedInMember changes
     setFavImpact(
       Array.isArray(loggedInMember?.impact)
-        ? loggedInMember.impact.join(',') // If impact is an array, join it into a string
-        : loggedInMember?.impact || '' // Otherwise, use the impact value or default to empty string
+        ? loggedInMember.impact.join(',')
+        : loggedInMember?.impact || '',
     );
     setFavCurrencies(
       Array.isArray(loggedInMember?.favCurrencies)
-        ? loggedInMember.favCurrencies.join(',') // If favCurrencies is an array, join it into a string
-        : loggedInMember?.favCurrencies || '' // Otherwise, use the favCurrencies value or default to empty string
+        ? loggedInMember.favCurrencies.join(',')
+        : loggedInMember?.favCurrencies || '',
     );
-  }, [loggedInMember]); // This hook runs whenever loggedInMember changes
+  }, [loggedInMember]);
 
   const { formState, handleFormChange } = useForm({
     firstName: loggedInMember?.firstName || '',
@@ -48,43 +48,41 @@ const MemberChangeProfile = () => {
 
   const navigate = useNavigate();
 
-  // Handle changes in selected currencies checkboxes
   const handleCurrencyChange = (event) => {
     const { value, checked } = event.target;
     setFavCurrencies((prevCurrencies) => {
       const currenciesArray = prevCurrencies.split(',').filter(Boolean);
       if (checked) {
         if (!currenciesArray.includes(value)) {
-          return [...currenciesArray, value].join(','); // Add the selected currency if not already in the list
+          return [...currenciesArray, value].join(',');
         }
-        return prevCurrencies; // If already included, return the previous value
+        return prevCurrencies;
       } else {
         return currenciesArray
-          .filter((currency) => currency !== value) // Remove the unchecked currency
-          .join(','); // Join the array back into a string
+          .filter((currency) => currency !== value)
+          .join(',');
       }
     });
   };
 
-  // Handle changes in selected impact checkboxes
   const handleImpactChange = (event) => {
     const { value, checked } = event.target;
     setFavImpact((prevImpact) => {
-      const impactArray = prevImpact.split(',').filter(Boolean); // Convert the string into an array and remove empty strings
+      const impactArray = prevImpact.split(',').filter(Boolean);
       if (checked) {
         if (!impactArray.includes(value)) {
-          return [...impactArray, value].join(','); // Add the selected impact level if not already in the list
+          return [...impactArray, value].join(',');
         }
-        return prevImpact; // If already included, return the previous value
+        return prevImpact;
       } else {
-        return impactArray.filter((impact) => impact !== value).join(','); // Remove the unchecked impact level
+        return impactArray.filter((impact) => impact !== value).join(',');
       }
     });
   };
 
-  // Handle profile submission and save changes
-  const handleChangeProfile = () => {
-    // Create FormData to send the updated profile data
+  const handleChangeProfile = async () => {
+    setIsLoading(true);
+
     const submitForm = new FormData();
     submitForm.append('firstName', formState.firstName);
     submitForm.append('lastName', formState.lastName);
@@ -93,25 +91,20 @@ const MemberChangeProfile = () => {
     submitForm.append('favCurrencies', favCurrencies);
     submitForm.append('impact', favImpact);
 
-    const result = memberChangeProfile(submitForm);
+    const result = await memberChangeProfile(submitForm);
 
     if (result) {
-      // If the update is successful:
-      // Update localStorage with the new profile data
       const updatedMember = {
         ...loggedInMember,
         firstName: formState.firstName,
         lastName: formState.lastName,
         username: formState.username,
         timeZone: formState.timeZone,
-        favCurrencies: favCurrencies.split(',').filter(Boolean), // Convert string to array
-        impact: favImpact.split(',').filter(Boolean), // Convert string to array
+        favCurrencies: favCurrencies.split(',').filter(Boolean),
+        impact: favImpact.split(',').filter(Boolean),
       };
-      localStorage.setItem('lh_member', JSON.stringify(updatedMember)); // Save updated member to localStorage
-
-      // Trigger the Table to refresh by dispatching a 'profileUpdated' event
+      localStorage.setItem('lh_member', JSON.stringify(updatedMember));
       window.dispatchEvent(new Event('profileUpdated'));
-
       navigate('/');
     } else {
       raiseAlert({
@@ -120,6 +113,8 @@ const MemberChangeProfile = () => {
         text: 'Check the fields or try again later!',
       });
     }
+
+    setIsLoading(false);
   };
 
   const timeZones = [
@@ -134,17 +129,26 @@ const MemberChangeProfile = () => {
 
   return (
     <div className="member-change-profile-container">
-      <div className="member-change-profile-form">
-        <Typography
-          variant="h4"
-          component="h1"
-          className="member-change-profile-header"
-        >
-          Edit Profile
-        </Typography>
+      <div className="member-change-profile-background-overlay"></div>
 
-        <Grid container spacing={3} sx={{ mt: 2 }}>
-          {/* First Name Input Field */}
+      <div className="member-change-profile-form">
+        <div className="profile-logo-container">
+          <img src={Logo} alt="Economic Compass" className="profile-logo" />
+          <Typography
+            variant="h3"
+            component="h1"
+            className="profile-brand-name"
+          >
+            Edit Profile
+          </Typography>
+          <Typography variant="body2" className="profile-subtitle">
+            Customize Your Experience
+          </Typography>
+        </div>
+
+        <div className="profile-divider"></div>
+
+        <Grid container spacing={3} className="profile-fields">
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
@@ -157,7 +161,6 @@ const MemberChangeProfile = () => {
             />
           </Grid>
 
-          {/* Last Name Input Field */}
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
@@ -170,7 +173,6 @@ const MemberChangeProfile = () => {
             />
           </Grid>
 
-          {/* Username Input Field */}
           <Grid size={12}>
             <TextField
               fullWidth
@@ -183,7 +185,6 @@ const MemberChangeProfile = () => {
             />
           </Grid>
 
-          {/* Time Zone Dropdown */}
           <Grid size={12}>
             <FormControl
               fullWidth
@@ -209,7 +210,6 @@ const MemberChangeProfile = () => {
             </FormControl>
           </Grid>
 
-          {/* Preferred Currencies Section */}
           <Grid size={12}>
             <Typography variant="h6" className="section-header">
               Preferred Currencies
@@ -243,7 +243,6 @@ const MemberChangeProfile = () => {
             </div>
           </Grid>
 
-          {/* Impact Levels Section */}
           <Grid size={12}>
             <Typography variant="h6" className="section-header">
               Impact Levels
@@ -268,13 +267,17 @@ const MemberChangeProfile = () => {
           </Grid>
         </Grid>
 
-        {/* Save Changes Button */}
         <Button
           variant="contained"
           onClick={handleChangeProfile}
-          className="member-change-profile-button"
+          disabled={isLoading}
+          className={`member-change-profile-button ${isLoading ? 'loading' : ''}`}
         >
-          Save Changes
+          {isLoading ? (
+            <span className="loading-spinner"></span>
+          ) : (
+            'Save Changes'
+          )}
         </Button>
       </div>
     </div>

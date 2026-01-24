@@ -4,15 +4,19 @@ import { fetchAPI } from '../../utils/index.js';
 import moment from 'moment-timezone';
 import './Table.css';
 
-function Table() {
+// eslint-disable-next-line react/prop-types
+function Table({ variant = 'dashboard' }) {
   const [data, setData] = useState([]);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [hoveredCountry, setHoveredCountry] = useState(null);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [memberProfile, setMemberProfile] = useState(() =>
-    JSON.parse(localStorage.getItem('lh_member') || '{}')
+    JSON.parse(localStorage.getItem('lh_member') || '{}'),
   );
-  // A lot of filters are present for the table component, that's why there is a function to handle all the filters
+
+  const isFullPage = variant === 'page';
+  const isDashboard = variant === 'dashboard';
+
   const fetchAndFilterData = () => {
     fetchAPI({
       method: 'get',
@@ -21,32 +25,34 @@ function Table() {
       .then((response) => {
         const lhMember = memberProfile;
 
-        const favCurrencies = Array.isArray(lhMember.favCurrencies)
-          ? lhMember.favCurrencies
-          : lhMember.favCurrencies
-          ? lhMember.favCurrencies.split(',').filter(Boolean)
-          : [];
-
-        const favImpact = Array.isArray(lhMember.impact)
-          ? lhMember.impact
-          : lhMember.impact
-          ? lhMember.impact.split(',').filter(Boolean)
-          : [];
-
         const timeZone = (lhMember.timeZone || 'UTC').replace(/\\/g, '/');
-
         let filteredData = response.data;
 
-        if (favCurrencies.length > 0) {
-          filteredData = filteredData.filter((event) =>
-            favCurrencies.includes(event.country)
-          );
-        }
+        // Only apply filters on dashboard view
+        if (isDashboard) {
+          const favCurrencies = Array.isArray(lhMember.favCurrencies)
+            ? lhMember.favCurrencies
+            : lhMember.favCurrencies
+              ? lhMember.favCurrencies.split(',').filter(Boolean)
+              : [];
 
-        if (favImpact.length > 0) {
-          filteredData = filteredData.filter((event) =>
-            favImpact.includes(event.impact)
-          );
+          const favImpact = Array.isArray(lhMember.impact)
+            ? lhMember.impact
+            : lhMember.impact
+              ? lhMember.impact.split(',').filter(Boolean)
+              : [];
+
+          if (favCurrencies.length > 0) {
+            filteredData = filteredData.filter((event) =>
+              favCurrencies.includes(event.country),
+            );
+          }
+
+          if (favImpact.length > 0) {
+            filteredData = filteredData.filter((event) =>
+              favImpact.includes(event.impact),
+            );
+          }
         }
 
         const adjustedData = filteredData.map((event) => ({
@@ -61,12 +67,12 @@ function Table() {
       });
   };
 
-  // Fetch data when memberProfile fields change
+  // Fetch data when memberProfile fields change (only for dashboard)
   useEffect(() => {
     fetchAndFilterData();
   }, [
-    memberProfile.favCurrencies,
-    memberProfile.impact,
+    isDashboard ? memberProfile.favCurrencies : null,
+    isDashboard ? memberProfile.impact : null,
     memberProfile.timeZone,
   ]);
 
@@ -74,9 +80,9 @@ function Table() {
   useEffect(() => {
     const handleProfileUpdate = () => {
       const updatedMember = JSON.parse(
-        localStorage.getItem('lh_member') || '{}'
+        localStorage.getItem('lh_member') || '{}',
       );
-      setMemberProfile(updatedMember); // Update state to trigger re-fetch
+      setMemberProfile(updatedMember);
     };
 
     window.addEventListener('profileUpdated', handleProfileUpdate);
@@ -85,12 +91,10 @@ function Table() {
   }, []);
 
   const groupedData = useMemo(() => {
-    // Creates an object to group events by date and country
     const groups = {};
     const timeZone = (memberProfile.timeZone || 'UTC').replace(/\\/g, '/');
 
     data.forEach((event) => {
-      // Convert event date to local time zone and format it as a readable string
       const dateKey = moment
         .utc(event.date)
         .tz(timeZone)
@@ -98,7 +102,6 @@ function Table() {
         .toLocaleDateString();
       const countryKey = event.country;
 
-      // Initialize date and country groups if they don't exist
       if (!groups[dateKey]) {
         groups[dateKey] = {};
       }
@@ -106,18 +109,24 @@ function Table() {
         groups[dateKey][countryKey] = [];
       }
 
-      // Add event to the corresponding date and country group
       groups[dateKey][countryKey].push(event);
     });
 
     return groups;
-  }, [data, memberProfile.timeZone]); // Recomputes only when data or time zone changes
+  }, [data, memberProfile.timeZone]);
+
+  const containerClass = isFullPage ? 'tablePage-container' : 'table-container';
+  const tableClass = isFullPage ? 'dataPage-table' : 'data-table';
+  const title = isFullPage
+    ? 'All Economic Events - This Week'
+    : 'Economic Calendar - This Week';
 
   return (
-    <div className="table-container">
-      <div className="table-title">Economic Calendar - This Week</div>
+    <div className={containerClass}>
+      {isFullPage && <div className="page-title">{title}</div>}
+      {isDashboard && <div className="table-title">{title}</div>}
 
-      <table className="data-table">
+      <table className={tableClass}>
         <thead>
           <tr>
             <th>Date</th>
@@ -133,7 +142,7 @@ function Table() {
           {Object.entries(groupedData).map(([date, countries], dateIndex) => {
             const dateRowCount = Object.values(countries).reduce(
               (sum, events) => sum + events.length,
-              0
+              0,
             );
 
             return (
@@ -203,7 +212,7 @@ function Table() {
                         </tr>
                       );
                     });
-                  }
+                  },
                 )}
               </>
             );

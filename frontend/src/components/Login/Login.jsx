@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import {
   Typography,
   Button,
@@ -10,24 +9,20 @@ import {
   Link,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-
 import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
-
-import { useNavigate } from 'react-router-dom'; // Correct import for react-router
-
+import { useNavigate } from 'react-router-dom';
 import useStore from '../../hooks/useStore.js';
 import useForm from '../../hooks/useForm.js';
-import './Login.css'; // Import the CSS
+import Logo from '../../assets/economicCompass.png';
+import './Login.css';
 
-// functional component
 const Login = () => {
-  // Javascript-Teil
   const { memberLogin, raiseAlert } = useStore((state) => state);
-
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { formState, handleFormChange } = useForm({
     username: '',
@@ -39,38 +34,54 @@ const Login = () => {
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   const handleLogin = async () => {
-    // Attempt login
+    setIsLoading(true);
     const result = await memberLogin(formState);
 
     if (result) {
-      // Navigate to dashboard on successful login
       navigate('/');
     } else {
-      // If login fails, show an alert using CustomAlert
       raiseAlert({
         severity: 'error',
         title: 'Login Failed',
         text: 'Incorrect username or password. Please try again.',
       });
     }
+    setIsLoading(false);
   };
 
-  // JSX-Teil
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
+
   return (
     <div className="login-container">
-      <div className="login-form">
-        <Typography variant="h4" component="h1" className="login-header">
-          Login
-        </Typography>
+      <div className="login-background-overlay"></div>
 
-        <Stack spacing={3}>
+      <div className="login-form">
+        <div className="login-logo-container">
+          <img src={Logo} alt="Economic Compass" className="login-logo" />
+          <Typography variant="h3" component="h1" className="login-brand-name">
+            Economic Compass
+          </Typography>
+          <Typography variant="body2" className="login-subtitle">
+            Navigate Your Financial Future
+          </Typography>
+        </div>
+
+        <div className="login-divider"></div>
+
+        <Stack spacing={3} className="login-fields">
           <TextField
             label="Username"
             variant="outlined"
             name="username"
             value={formState.username}
             onChange={handleFormChange}
+            onKeyPress={handleKeyPress}
             className="text-field"
+            autoComplete="username"
           />
           <TextField
             label="Password"
@@ -79,14 +90,16 @@ const Login = () => {
             type={showPassword ? 'text' : 'password'}
             value={formState.password}
             onChange={handleFormChange}
+            onKeyPress={handleKeyPress}
             className="text-field"
+            autoComplete="current-password"
             InputProps={{
-              // <-- This is where the toggle button is added.
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
                     aria-label="Show or Hide password"
                     onClick={handleClickShowPassword}
+                    className="visibility-icon"
                   >
                     {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                   </IconButton>
@@ -97,17 +110,23 @@ const Login = () => {
           <Button
             variant="contained"
             onClick={handleLogin}
-            className="login-button"
+            disabled={isLoading}
+            className={`login-button ${isLoading ? 'loading' : ''}`}
           >
-            Login
+            {isLoading ? <span className="loading-spinner"></span> : 'Login'}
           </Button>
 
           <div className="register-link">
-            <Link component={RouterLink} to="/signup">
-              <Typography variant="body1">
-                No account? Register here!
-              </Typography>
-            </Link>
+            <Typography variant="body2" className="register-text">
+              Don&apos;t have an account?
+              <Link
+                component={RouterLink}
+                to="/signup"
+                className="register-link-text"
+              >
+                Sign up here
+              </Link>
+            </Typography>
           </div>
         </Stack>
       </div>

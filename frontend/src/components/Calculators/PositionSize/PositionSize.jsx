@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { fetchAPI } from '../../../utils';
 import styles from './PositionSize.module.css';
 
-function PositionSize() {
-  // State to manage form inputs
+function PositionSize({ variant = 'dashboard' }) {
   const [formData, setFormData] = useState({
     baseCurrency: 'eur',
     comparedTo: 'usd',
@@ -13,23 +13,23 @@ function PositionSize() {
     accountCurrency: 'eur',
   });
 
-  // State to store the calculated position size result
   const [result, setResult] = useState('0.00');
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Handles input field changes and updates the form state
+  const isFullPage = variant === 'page';
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value, // Dynamically update the corresponding field
+      [name]: value,
     }));
   };
 
-  // Handles form submission and fetches position size calculation
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
+    setIsLoading(true);
 
-    // Prepare the form data object to send in the API request
     const form = {
       baseCurrency: formData.baseCurrency,
       comparedTo: formData.comparedTo,
@@ -40,26 +40,29 @@ function PositionSize() {
     };
 
     try {
-      // Make an API request to calculate the position size
       const response = await fetchAPI({
         method: 'post',
         url: '/position-size',
         data: form,
       });
 
-      // Update the state with the calculated lot size
       setResult(response.data.lotSize);
     } catch (err) {
-      console.error('Error during calculation:', err); // Log any errors
+      console.error('Error during calculation:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const containerClass = isFullPage
+    ? styles.calculatorFormPage
+    : styles.calculatorForm;
+
   return (
     <form onSubmit={handleSubmit}>
-      <div className={styles.calculatorForm}>
+      <div className={containerClass}>
         <h3>Position Size Calculator</h3>
 
-        {/* Base Currency Selection */}
         <div className={styles.formGroup}>
           <label htmlFor="baseCurrency">Base Currency:</label>
           <select
@@ -90,7 +93,6 @@ function PositionSize() {
           </select>
         </div>
 
-        {/* Compared To Currency Selection */}
         <div className={styles.formGroup}>
           <label htmlFor="comparedTo">Compared To:</label>
           <select
@@ -121,43 +123,40 @@ function PositionSize() {
           </select>
         </div>
 
-        {/* Account Size Input */}
         <div className={styles.formGroup}>
           <label htmlFor="accountSize">Account Size:</label>
           <input
             type="number"
             name="accountSize"
-            placeholder="Enter Account Size"
+            placeholder="Enter account size"
             value={formData.accountSize}
             onChange={handleChange}
           />
         </div>
 
-        {/* Risk Ratio Input */}
         <div className={styles.formGroup}>
           <label htmlFor="riskRatio">Risk Ratio (%):</label>
           <input
             type="number"
             name="riskRatio"
-            placeholder="Enter Risk Ratio (%)"
+            placeholder="Enter risk ratio"
             value={formData.riskRatio}
             onChange={handleChange}
+            step="0.1"
           />
         </div>
 
-        {/* Stop Loss Input */}
         <div className={styles.formGroup}>
           <label htmlFor="stopLoss">Stop Loss (pips):</label>
           <input
             type="number"
             name="stopLoss"
-            placeholder="Enter Stop Loss (pips)"
+            placeholder="Enter stop loss"
             value={formData.stopLoss}
             onChange={handleChange}
           />
         </div>
 
-        {/* Account Currency Selection */}
         <div className={styles.formGroup}>
           <label htmlFor="accountCurrency">Account Currency:</label>
           <select
@@ -188,17 +187,19 @@ function PositionSize() {
           </select>
         </div>
 
-        {/* Display the calculated lot size */}
-        {result && (
+        {result && result !== '0.00' && (
           <div className={styles.result}>
             <h4>Lot Size:</h4>
             <pre>{JSON.stringify(result, null, 2)}</pre>
           </div>
         )}
 
-        {/* Submit Button */}
-        <button type="submit" className={styles.calculateButton}>
-          Calculate
+        <button
+          type="submit"
+          className={`${styles.calculateButton} ${isLoading ? styles.loading : ''}`}
+          disabled={isLoading}
+        >
+          {isLoading ? <span className={styles.spinner}></span> : 'Calculate'}
         </button>
       </div>
     </form>

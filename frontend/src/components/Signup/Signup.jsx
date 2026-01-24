@@ -21,6 +21,7 @@ import {
 } from '@mui/icons-material';
 import useForm from '../../hooks/useForm';
 import useStore from '../../hooks/useStore';
+import Logo from '../../assets/economicCompass.png';
 import './Signup.css';
 
 const Signup = () => {
@@ -28,6 +29,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [favCurrencies, setFavCurrencies] = useState('');
   const [favImpact, setFavImpact] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const { formState, handleFormChange } = useForm({
     username: '',
@@ -77,10 +79,12 @@ const Signup = () => {
       });
     }
 
+    setIsLoading(true);
+
     const userData = {
       username: formState.username,
       password: formState.password,
-      confirmPassword: formState.confirmPassword, // Include if backend expects it
+      confirmPassword: formState.confirmPassword,
       email: formState.email,
       firstName: formState.firstName,
       lastName: formState.lastName,
@@ -89,7 +93,6 @@ const Signup = () => {
       impact: favImpact,
     };
 
-    console.log('userData:', userData); // Debug the data
     const response = await memberSignup(userData);
 
     if (response) {
@@ -100,6 +103,8 @@ const Signup = () => {
         text: 'There was an issue with the signup. Please check the fields.',
       });
     }
+
+    setIsLoading(false);
   };
 
   const timeZones = [
@@ -114,12 +119,22 @@ const Signup = () => {
 
   return (
     <div className="signup-container">
-      <div className="signup-form">
-        <Typography variant="h4" component="h1" className="signup-header">
-          Create Account
-        </Typography>
+      <div className="signup-background-overlay"></div>
 
-        <Grid container spacing={3}>
+      <div className="signup-form">
+        <div className="signup-logo-container">
+          <img src={Logo} alt="Economic Compass" className="signup-logo" />
+          <Typography variant="h3" component="h1" className="signup-brand-name">
+            Economic Compass
+          </Typography>
+          <Typography variant="body2" className="signup-subtitle">
+            Start Your Journey to Financial Clarity
+          </Typography>
+        </div>
+
+        <div className="signup-divider"></div>
+
+        <Grid container spacing={3} className="signup-fields">
           <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
@@ -142,6 +157,28 @@ const Signup = () => {
               className="text-field"
             />
           </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <TextField
+              fullWidth
+              label="First Name"
+              variant="outlined"
+              name="firstName"
+              value={formState.firstName}
+              onChange={handleFormChange}
+              className="text-field"
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <TextField
+              fullWidth
+              label="Last Name"
+              variant="outlined"
+              name="lastName"
+              value={formState.lastName}
+              onChange={handleFormChange}
+              className="text-field"
+            />
+          </Grid>
           <Grid size={{ xs: 12 }}>
             <TextField
               fullWidth
@@ -155,7 +192,10 @@ const Signup = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={handleClickShowPassword}>
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      className="visibility-icon"
+                    >
                       {showPassword ? (
                         <VisibilityIcon />
                       ) : (
@@ -180,7 +220,10 @@ const Signup = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={handleClickShowPassword}>
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      className="visibility-icon"
+                    >
                       {showPassword ? (
                         <VisibilityIcon />
                       ) : (
@@ -190,28 +233,6 @@ const Signup = () => {
                   </InputAdornment>
                 ),
               }}
-            />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <TextField
-              fullWidth
-              label="First Name"
-              variant="outlined"
-              name="firstName"
-              value={formState.firstName}
-              onChange={handleFormChange}
-              className="text-field"
-            />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <TextField
-              fullWidth
-              label="Last Name"
-              variant="outlined"
-              name="lastName"
-              value={formState.lastName}
-              onChange={handleFormChange}
-              className="text-field"
             />
           </Grid>
           <Grid size={{ xs: 12 }}>
@@ -294,15 +315,23 @@ const Signup = () => {
         <Button
           variant="contained"
           onClick={handleSignup}
-          className="signup-button"
+          disabled={isLoading}
+          className={`signup-button ${isLoading ? 'loading' : ''}`}
         >
-          Sign Up
+          {isLoading ? (
+            <span className="loading-spinner"></span>
+          ) : (
+            'Create Account'
+          )}
         </Button>
 
         <div className="login-link">
-          <Link href="/login" variant="body1" className="login-link-text">
-            Already have an account? Log in
-          </Link>
+          <Typography variant="body2" className="login-text">
+            Already have an account?{' '}
+            <Link href="/login" className="login-link-text">
+              Log in here
+            </Link>
+          </Typography>
         </div>
       </div>
     </div>

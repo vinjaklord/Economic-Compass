@@ -16,7 +16,7 @@ const allCalendar = async (req, res) => {
   try {
     const data = await Economics.find(
       {}, // No filter, fetch all entries
-      'title country date impact forecast previous -_id' // Select fields, exclude _id
+      'title country date impact forecast previous -_id', // Select fields, exclude _id
     )
       .sort({ date: 1 }) // Sort by date ascending
       .lean(); // Return plain JS objects
@@ -34,7 +34,7 @@ const whatDay = async (req, res) => {
 
     const data = await Economics.find(
       {},
-      'title date impact forecast previous -_id'
+      'title date impact forecast previous -_id',
     ).lean();
 
     const today = new Date();
@@ -45,7 +45,7 @@ const whatDay = async (req, res) => {
     const tomorrowDate = formatInTimeZone(
       tomorrow,
       'America/New_York',
-      'yyyy-MM-dd'
+      'yyyy-MM-dd',
     );
 
     if (day === 'today') {
@@ -53,7 +53,7 @@ const whatDay = async (req, res) => {
         const itemDate = formatInTimeZone(
           new Date(i.date),
           'America/New_York',
-          'yyyy-MM-dd'
+          'yyyy-MM-dd',
         );
         return itemDate === todayDate;
       });
@@ -65,7 +65,7 @@ const whatDay = async (req, res) => {
         const itemDate = formatInTimeZone(
           new Date(i.date),
           'America/New_York',
-          'yyyy-MM-dd'
+          'yyyy-MM-dd',
         );
         return itemDate === tomorrowDate;
       });
@@ -194,7 +194,7 @@ const login = async (req, res, next) => {
       console.log(
         'Member not found with username/email: ',
         data.username,
-        data.email
+        data.email,
       );
       throw new HttpError('Cannot Find Member', 404);
     }
@@ -255,6 +255,22 @@ const updateMember = async (req, res, next) => {
   }
 };
 
+const deleteMockMember = async (req, res, next) => {
+  try {
+    const criteria = { email: { $regex: /^test_.*@example\.com$/ } };
+
+    const membersToDelete = await Member.find(criteria);
+    const memberIds = membersToDelete.map((m) => m._id);
+
+    await Password.deleteMany({ member: { $in: memberIds } });
+    await Member.deleteMany(criteria);
+
+    res.status(200).json({ message: 'Test users and passwords cleared' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////
 
 export {
@@ -265,4 +281,5 @@ export {
   news,
   getOneMember,
   updateMember,
+  deleteMockMember,
 };

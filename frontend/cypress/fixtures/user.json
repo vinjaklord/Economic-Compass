@@ -1,0 +1,15 @@
+{
+    "token": "fake-jwt-token",
+    "user": {
+        "_id": "12345",
+        "username": "testuser",
+        "firstName": "Cypress",
+        "lastName": "Tester",
+        "timeZone": "UTC",
+        "favCurrencies": [
+            "USD",
+            "EUR"
+        ],
+        "favCalc": "posSize"
+    }
+}

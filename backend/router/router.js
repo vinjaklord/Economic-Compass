@@ -8,6 +8,7 @@ import {
   news,
   getOneMember,
   updateMember,
+  deleteMockMember,
 } from '../controllers/controller.js';
 import { positionSize, currencyConverter } from '../controllers/calculator.js';
 
@@ -57,5 +58,7 @@ router.post(
   body('password').escape().optional(),
   login,
 );
+
+router.delete('/test/cleanup', deleteMockMember);
 
 export default router;

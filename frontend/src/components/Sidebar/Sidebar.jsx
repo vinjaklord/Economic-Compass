@@ -35,6 +35,7 @@ const Sidebar = () => {
       className={`main-menu ${isExpanded ? 'expanded' : ''}`}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
+      data-testid="sidebar-nav"
     >
       {/* Logo Section */}
       <div className="sidebar-logo">
@@ -47,9 +48,11 @@ const Sidebar = () => {
       <ul>
         {mainLinks.map((link, index) => (
           <li key={index}>
-            <Link to={link.to}>
+            <Link to={link.to} data-testid={`nav-link-${link.text}`}>
               <i className={`fa ${link.icon} fa-2x`}></i>
-              <span className="nav-text">{link.text}</span>
+              <span className="nav-text" data-testid="nav-text">
+                {link.text}
+              </span>
             </Link>
           </li>
         ))}
@@ -62,9 +65,11 @@ const Sidebar = () => {
       <ul>
         {additionalLinks.map((link, index) => (
           <li key={index}>
-            <Link to={link.to}>
+            <Link to={link.to} data-testid={`nav-link-${link.text}`}>
               <i className={`fa ${link.icon} fa-2x`}></i>
-              <span className="nav-text">{link.text}</span>
+              <span className="nav-text" data-testid="nav-text">
+                {link.text}
+              </span>
             </Link>
           </li>
         ))}

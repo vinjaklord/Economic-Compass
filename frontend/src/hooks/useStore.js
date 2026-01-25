@@ -117,16 +117,15 @@ const useStore = create((set, get) => ({
         method: 'PATCH',
         url: '/members/' + get().loggedInMember._id,
         data,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${get().token}`,
-        },
       });
 
       await get().memberRefreshMe();
       await get().raiseAlert({ text: 'Profile successfully edited!' });
+
+      return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   },
 

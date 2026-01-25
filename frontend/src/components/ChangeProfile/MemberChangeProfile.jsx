@@ -83,15 +83,16 @@ const MemberChangeProfile = () => {
   const handleChangeProfile = async () => {
     setIsLoading(true);
 
-    const submitForm = new FormData();
-    submitForm.append('firstName', formState.firstName);
-    submitForm.append('lastName', formState.lastName);
-    submitForm.append('username', formState.username);
-    submitForm.append('timeZone', formState.timeZone);
-    submitForm.append('favCurrencies', favCurrencies);
-    submitForm.append('impact', favImpact);
+    const submitData = {
+      firstName: formState.firstName,
+      lastName: formState.lastName,
+      username: formState.username,
+      timeZone: formState.timeZone,
+      favCurrencies: favCurrencies,
+      impact: favImpact,
+    };
 
-    const result = await memberChangeProfile(submitForm);
+    const result = await memberChangeProfile(submitData);
 
     if (result) {
       const updatedMember = {
@@ -105,7 +106,6 @@ const MemberChangeProfile = () => {
       };
       localStorage.setItem('lh_member', JSON.stringify(updatedMember));
       window.dispatchEvent(new Event('profileUpdated'));
-      navigate('/');
     } else {
       raiseAlert({
         severity: 'error',

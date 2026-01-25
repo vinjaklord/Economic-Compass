@@ -65,6 +65,8 @@ npx cypress run
 
 ## 🚀 Installation & Setup
 
+**Live App**: https://economic-compass-live.vercel.app/
+
 1. **Clone & Install**:
 ```bash
 git clone https://github.com/vinjaklord/EconomicCompass.git

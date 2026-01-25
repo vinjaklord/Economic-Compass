@@ -101,7 +101,7 @@ npm run dev
 
 ## 📧 Contact
 
-**Aron Pozsar** [LinkedIn](https://linkedin.com/in/yourprofile) | aronpozsar@gmail.com
+**Aron Pozsar** [LinkedIn](https://www.linkedin.com/in/aronpozsar/) | aronpozsar@gmail.com
 
 ---
 

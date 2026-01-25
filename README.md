@@ -1,5 +1,3 @@
----
-
 # 🧭 Economic Compass
 
 > **A Professional Full-Stack Financial Dashboard & Trading Utility**
@@ -17,7 +15,7 @@ Economic Compass addresses the "information overload" faced by traders by aggreg
 * **Sentiment News Feed**: Real-time financial news integration with automated timezone normalization using `moment-timezone`.
 * **Advanced Trading Calculators**:
 * **Position Sizer**: Complex logic to determine lot sizes based on account risk and stop-loss.
-* **Currency Converter**: Live conversion rates fetched via the European Central Bank.
+* **Currency Converter**: Live conversion rates fetched via the European Central Bank API.
 
 
 * **User Preference Engine**: Persistent settings for timezones and favorite assets, synchronized across MongoDB and LocalStorage.
@@ -49,7 +47,7 @@ The project maintains a high standard of reliability through a comprehensive **C
 
 * **Critical User Paths**: Robust testing of the Signup/Login flow and Profile preference updates.
 * **Resilience Testing**: Mocking API `500` errors using `cy.intercept` to verify graceful UI degradation and error notifications.
-* **Interaction Testing**: Handling complex UI states, such as sidebar animations and dynamic form validation.
+* **Interaction Testing**: Handling complex UI states, such as sidebar animations and dynamic form validation (including fixing visibility issues related to CSS transitions).
 * **Database Hygiene**: Custom `before-all` hooks and backend "Cleanup" routes (restricted to test environments) ensure a deterministic testing state.
 
 ### **Running Tests**
@@ -103,7 +101,7 @@ npm run dev
 
 ## 📧 Contact
 
-**[Aron Pozsar]** [LinkedIn](https://linkedin.com/in/yourprofile) | aronpozsar@gmail.com
+**Aron Pozsar** [LinkedIn](https://linkedin.com/in/yourprofile) | aronpozsar@gmail.com
 
 ---
 

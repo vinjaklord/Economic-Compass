@@ -6,7 +6,8 @@ const fetchAPI = (options = {}) => {
     timeout: 5000,
     data: {},
     url: '/',
-    baseURL: 'http://localhost:3000/',
+    // Added VITE_ prefix here
+    baseURL: import.meta.env.VITE_BACKEND_BASEURL,
   };
 
   const axiosConfig = {

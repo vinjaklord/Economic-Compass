@@ -6,12 +6,10 @@ describe('Calculator (Mocked Backend)', () => {
       window.localStorage.setItem('lh_member', JSON.stringify(user));
     });
 
-    // We INTERCEPT the request to your backend.
-    // Even though your backend exists, we stop the request at the browser
-    // and return an instant answer.
+  
     cy.intercept('POST', '**/position-size', {
       statusCode: 200,
-      body: { lotSize: 2.55 }, // Deterministic result
+      body: { lotSize: 2.55 }, 
     }).as('calcRequest');
 
     cy.visit('/calculator/position-size');

@@ -26,12 +26,10 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('expandSidebar', () => {
-  // 1. Trigger the hover
+
   cy.get('[data-testid="sidebar-nav"]').realHover();
 
   cy.get('.main-menu').invoke('addClass', 'expanded');
 
-  // 3. Now check visibility.
-  // If it still fails, we know the class is there but the CSS opacity isn't changing.
   cy.get('[data-testid="nav-text"]').first().should('be.visible');
 });

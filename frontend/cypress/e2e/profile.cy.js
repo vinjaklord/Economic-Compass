@@ -18,7 +18,7 @@ describe('User Profile & Preferences', () => {
   });
 
   beforeEach(() => {
-    // 2. Log in before every test
+
     cy.visit('/login');
     cy.get('input[name="username"]').type(testUser.username);
     cy.get('input[name="password"]').type(testUser.password);
@@ -34,18 +34,18 @@ describe('User Profile & Preferences', () => {
   it('updates personal information and reflects changes in the UI', () => {
     const newName = 'UpdatedName';
 
-    // Fill text fields (MemberChangeProfile.jsx)
+
     cy.get('input[name="firstName"]').clear().type(newName);
     cy.get('button').contains('Save Changes').click();
 
-    // Refresh and check if it persisted in the backend
+
     cy.reload();
     cy.get('input[name="firstName"]').should('have.value', newName);
   });
 
   it('saves multiple checkbox selections for Impact Levels', () => {
-    // In MemberChangeProfile.jsx, you map over ['Low', 'Medium', 'High', 'Holiday']
-    // Let's select 'High' and 'Holiday'
+
+
     cy.get('input[type="checkbox"][value="High"]').check().should('be.checked');
     cy.get('input[type="checkbox"][value="Holiday"]')
       .check()
@@ -53,12 +53,12 @@ describe('User Profile & Preferences', () => {
 
     cy.get('button').contains('Save Changes').click();
 
-    // Intercept the patch to verify the payload sent to router.js
+
     cy.intercept('PATCH', '**/members/*').as('updateProfile');
     cy.get('button').contains('Save Changes').click();
 
     cy.wait('@updateProfile').then((xhr) => {
-      // Your controller.js expects impact as a string (often comma-separated in the state)
+
       expect(xhr.request.body.impact).to.contain('High');
       expect(xhr.request.body.impact).to.contain('Holiday');
     });

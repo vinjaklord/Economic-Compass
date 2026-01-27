@@ -5,7 +5,7 @@
 
 ## 🚀 Live Demo & Access
 
-**Experience the platform live:** [Economic Compass - Live App](https://economic-compass-live.vercel.app/)
+**Experience the platform live:** [Economic Compass - Live App](https://economic-compass.vercel.app/)
 
 ### **Recruiter / Guest Access**
 

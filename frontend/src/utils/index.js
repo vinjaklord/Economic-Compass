@@ -1,14 +1,16 @@
 import axios from 'axios';
 
+// Force production URL - ignore any environment variables
+const API_URL = 'https://economic-compass-q85w.vercel.app';
+
 const axiosInstance = axios.create({
-  baseURL: 'https://economic-compass-q85w.vercel.app',
+  baseURL: API_URL,
   timeout: 5000,
 });
 
 const fetchAPI = (options = {}) => {
   const { token, ...axiosOptions } = options;
 
-  // Add Authorization header if token exists
   if (token) {
     axiosOptions.headers = {
       ...axiosOptions.headers,
@@ -16,8 +18,9 @@ const fetchAPI = (options = {}) => {
     };
   }
 
+  console.log('🔍 Using baseURL:', axiosInstance.defaults.baseURL);
   console.log(
-    '🔍 Making request to:',
+    '🔍 Full request:',
     axiosInstance.defaults.baseURL + (axiosOptions.url || '/'),
   );
 

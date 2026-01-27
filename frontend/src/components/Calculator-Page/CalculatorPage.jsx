@@ -43,13 +43,7 @@ export default function CalculatorPage() {
         text: 'Favorite calculator updated!',
       });
     } catch (error) {
-      console.error('Failed to update database:', error);
-
-      raiseAlert({
-        severity: 'error',
-        title: 'Error',
-        text: 'Failed to update favorite calculator.',
-      });
+      
     }
   };
 

@@ -16,7 +16,17 @@ const app = express();
 schedule();
 scheduleNews();
 
-app.use(cors());
+const corsOptions = {
+  // Allows my local machine AND my production frontend
+  origin: [
+    'http://localhost:5173',
+    'https://economic-compass-live.vercel.app',
+  ],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -27,7 +37,7 @@ app.use(
     directives: {
       scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net'],
     },
-  })
+  }),
 );
 
 app.use('/', router);

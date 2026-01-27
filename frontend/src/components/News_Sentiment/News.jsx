@@ -20,7 +20,7 @@ const News = ({ variant = 'dashboard' }) => {
     const fetchNews = async () => {
       try {
         const response = await fetchAPI({
-          url: 'news',
+          url: '/news',
           method: 'get',
         });
 

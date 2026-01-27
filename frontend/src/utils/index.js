@@ -6,8 +6,8 @@ const fetchAPI = (options = {}) => {
     timeout: 5000,
     data: {},
     url: '/',
-    // Added VITE_ prefix here
-    baseURL: import.meta.env.VITE_BACKEND_BASEURL,
+
+    baseURL: 'https://economic-compass-q85w.vercel.app',
   };
 
   const axiosConfig = {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Force production URL - ignore any environment variables
-const API_URL = 'https://economic-compass-q85w.vercel.app';
+const API_URL = 'https://economic-compass-backend.vercel.app';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

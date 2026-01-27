@@ -18,12 +18,6 @@ const fetchAPI = (options = {}) => {
     };
   }
 
-  console.log('🔍 Using baseURL:', axiosInstance.defaults.baseURL);
-  console.log(
-    '🔍 Full request:',
-    axiosInstance.defaults.baseURL + (axiosOptions.url || '/'),
-  );
-
   return axiosInstance(axiosOptions);
 };
 

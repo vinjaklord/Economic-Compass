@@ -1,21 +1,27 @@
 import axios from 'axios';
 
+const axiosInstance = axios.create({
+  baseURL: 'https://economic-compass-q85w.vercel.app',
+  timeout: 5000,
+});
+
 const fetchAPI = (options = {}) => {
-  const defaultConfig = {
-    method: 'get',
-    timeout: 5000,
-    data: {},
-    url: '/',
+  const { token, ...axiosOptions } = options;
 
-    baseURL: 'https://economic-compass-q85w.vercel.app',
-  };
+  // Add Authorization header if token exists
+  if (token) {
+    axiosOptions.headers = {
+      ...axiosOptions.headers,
+      Authorization: `Bearer ${token}`,
+    };
+  }
 
-  const axiosConfig = {
-    ...defaultConfig,
-    ...options,
-  };
+  console.log(
+    '🔍 Making request to:',
+    axiosInstance.defaults.baseURL + (axiosOptions.url || '/'),
+  );
 
-  return axios(axiosConfig);
+  return axiosInstance(axiosOptions);
 };
 
 export { fetchAPI };

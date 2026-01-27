@@ -18,10 +18,7 @@ scheduleNews();
 
 const corsOptions = {
   // Allows my local machine AND my production frontend
-  origin: [
-    'http://localhost:5173',
-    'https://economic-compass-live.vercel.app',
-  ],
+  origin: ['http://localhost:5173', 'https://economic-compass.vercel.app'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 };

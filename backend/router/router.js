@@ -36,7 +36,6 @@ router.get('/news', news);
 
 router.post('/position-size', positionSize);
 router.post('/currency-converter', currencyConverter);
-router.p;
 
 router.post(
   '/signup',

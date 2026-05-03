@@ -59,51 +59,6 @@ A full-stack forex trading dashboard that pulls economic calendar events, news s
 
 ---
 
-## Project structure
-
-```
-EconomicCompass/
-├── frontend/
-│   ├── cypress/                    # E2E test suite
-│   │   ├── e2e/
-│   │   │   ├── smoke_test.cy.js    # Navigation/page load checks
-│   │   │   ├── auth.cy.js          # Signup + login flow
-│   │   │   ├── calculator_mock.cy.js  # Position size with mocked API
-│   │   │   ├── profile.cy.js       # Profile update interactions
-│   │   │   └── news.cy.js          # News feed + 500 error handling
-│   │   └── support/pages/Login.js  # Page Object Model
-│   └── src/
-│       ├── components/
-│       │   ├── Calculator-Page/    # Calculator hub (card grid + favourites)
-│       │   ├── Calculators/
-│       │   │   ├── PositionSize/   # Lot size calculator
-│       │   │   └── CurrencyConverter/  # ECB live converter
-│       │   ├── Table/              # Economic calendar
-│       │   ├── News_Sentiment/     # News + sentiment feed
-│       │   ├── Sidebar/            # Expandable nav
-│       │   ├── Footer/
-│       │   ├── Header/
-│       │   ├── Layouts/            # Dashboard, AvatarMenu, LetterAvatar, alerts
-│       │   ├── Login/
-│       │   ├── Signup/
-│       │   └── ChangeProfile/
-│       ├── hooks/
-│       │   ├── useStore.js         # Zustand — auth, alerts, dialogs
-│       │   └── useForm.js
-│       └── utils/index.js          # Axios base URL (points to Vercel backend)
-└── backend/
-    ├── controllers/
-    │   ├── controller.js           # Auth, calendar, news, member CRUD
-    │   ├── calculator.js           # Position size + currency conversion logic
-    │   └── middleware.js           # Cron jobs, JWT helpers, bcrypt helpers
-    ├── models/
-    │   ├── members.js              # Member + Password schemas
-    │   └── news.js                 # Economics + News schemas
-    ├── router/router.js            # All routes + express-validator chains
-    └── server.js                   # Express setup, Helmet, CORS, DB connection
-```
-
----
 
 ## API endpoints
 

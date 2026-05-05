@@ -151,7 +151,7 @@ npx cypress run    # headless CI mode
 Test coverage:
 - **smoke_test** — page navigation and basic content rendering
 - **auth** — full signup → login flow using a unique test user
-- **calculator_mock** — position size form with `cy.intercept` mocking the backend response
+- **calculator_mock** — position size form with `cy.intercept` mocking a backend response
 - **profile** — preference checkbox interactions + PATCH payload verification
 - **news** — news table rendering and graceful 500 error handling
 
